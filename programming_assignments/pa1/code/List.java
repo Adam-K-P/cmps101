@@ -5,9 +5,14 @@ import java.io.*;
 class List {
    private class Node {
       int data;
-      Node next = null;
+      int index;
+      Node next;
+      Node prev;
       Node(int data) {
          data = data;
+         index = 0;
+         next = null;
+         prev = null;
       }
    }
 
@@ -36,7 +41,10 @@ class List {
 
    /* If cursor is defined, returns the index of the cursor element,
       otherwise returns -1 */
-   int index () {}
+   int index () {
+      if (cursor == null) return -1;
+      else return cursor.index;
+   }
 
    /* Returns front element.  Pre: length() > 0 */
    int front () {
@@ -73,32 +81,82 @@ class List {
 
    /* If List is non-empty, places the cursor under the front element, 
       otherwise does nothing */
-   void moveFront () {}
+   void moveFront () {
+      if (length == 0) return;
+      else cursor = front;
+   }
 
    /* If List is non-empty, places the cursor under the back element,
       ootherwise does nothing */
-   void moveBack () {}
+   void moveBack () {
+      if (length == 0) return;
+      else cursor = back;
+   }
 
    /* If cursor is defined and not at back, moves cursor one step toward
       back of this List, if cursor is defined and at back, cursor becomes
       undefined, if cursor is undefined does nothing */
-   void moveNext () {}
+   void moveNext () {
+      if (cursor == null) return;
+      if (cursor == back) cursor = null;
+      cursor = cursor.next;
+   }
 
    /* Insert new element into this List.  If List is non-empty,
       insertion takes place before front element */
-   void prepend (int data) {}
+   void prepend (int data) {
+      Node prep = new Node(data);
+      if (front == null) {
+         front = prep;
+         back  = prep;
+      }
+      else {
+         prep.next  = front;
+         front.prev = prep;
+         front      = prep;
+      }
+      ++length;
+   }
 
    /* Insert new element into this List.  If List is non-empty, 
       insertion takes place after back element. */
-   void append (int data) {}
+   void append (int data) { 
+      Node app = new Node(data);
+      if (front == null) { 
+         front = app;
+         back  = app;
+      }
+      else {
+         app.index = back.index + 1;
+         app.prev  = back;
+         back.next = app;
+         back      = app;
+      }
+   }
 
    /* Insert new element before cursor.
       Pre: length() > 0, index() >= 0 */
-   void insertBefore (int data) {}
+   void insertBefore (int data) {
+      if (cursor == null) throw new RuntimeException
+                          ("insertBefore: cursor is null\n");
+      Node insb = new Node(data);
+      insb.index = cursor.index - 1;
+      insb.next = cursor;
+      insb.prev = cursor.prev;
+      cursor.prev = insb;
+   }
 
    /* Inserts new element after cursor.
       Pre: length() > 0, index() > = 0 */
-   void insertAfter (int data) {}
+   void insertAfter (int data) {
+      if (cursor == null) throw new RuntimeException
+                          ("insertAfter: cursor is null\n");
+      Node insa = new Node(data);
+      insa.index = cursor.index + 1;
+      insa.prev = cursor;
+      insa.next = cursor.next;
+      cursor.next = insa;
+   }
 
    /* Deletes the front element. Pre: length() > 0 */
    void deleteFront () {}
@@ -116,19 +174,25 @@ class List {
    /* Overrides Object's tpString method.  Returns a String
       representation of this List consisting of a space 
       separated sequence of integers, with front on left */
-   public String toString() {}
+   public String toString() {
+      return null;
+   }
 
    /* Returns a new List representing the same integer sequence as this
       List.  The cursor in the new list is undefined, regardless of the 
       state of the cursor in this List.  This List is unchanged */
-   List copy () {}
+   List copy () {
+      return null;
+   }
 
    /* Returns a new List which is the concatenation of 
       this list followed by L.  The cursor in the new List 
       is undefined, regardless of the states of the cursors
       in this List and L.  The states of this List and L are 
       unchanged */
-   List concat (List L) {}
+   List concat (List L) {
+      return null;
+   }
 }
 
 

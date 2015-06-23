@@ -2,4 +2,5 @@
 #makefile
 
 all:
-	javac Lex.java
+	javac Lex.java List.java
+	

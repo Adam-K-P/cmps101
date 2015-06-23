@@ -14,8 +14,8 @@ class Lex {
          FileReader file = new FileReader(filename);
          BufferedReader buffer = new BufferedReader(file);
          String line;
-         while ((line = buffer.readLine()) != null)
-            out.printf("%s\n", line);
+         int length = 0;
+         while ((line = buffer.readLine()) != null) ++length; 
       }
       catch (FileNotFoundException ex) {
          err.printf("File: %s not found\n", filename);

@@ -4,15 +4,18 @@ import java.io.*;
 
 class List {
    private class Node {
-      int data;
+      Object data;
       int index;
       Node next;
       Node prev;
-      Node(int data) {
+      Node(Object data) {
          data = data;
          index = 0;
          next = null;
          prev = null;
+      }
+      public String toString() {
+         return String.valueOf(data);
       }
    }
 
@@ -47,12 +50,16 @@ class List {
    }
 
    /* Returns front element.  Pre: length() > 0 */
-   int front () {
+   Object front () {
+      if (length == 0) throw new RuntimeException
+                       ("front: length is 0\n");
       return front.data;
    }
 
    /* Returns back element. Pre: lenght() > 0 */
-   int back () {
+   Object back () {
+      if (length == 0) throw new RuntimeException
+                       ("back: length is 0\n");
       return back.data;
    }
 
@@ -104,7 +111,7 @@ class List {
 
    /* Insert new element into this List.  If List is non-empty,
       insertion takes place before front element */
-   void prepend (int data) {
+   void prepend (Object data) {
       Node prep = new Node(data);
       if (front == null) {
          front = prep;
@@ -120,7 +127,7 @@ class List {
 
    /* Insert new element into this List.  If List is non-empty, 
       insertion takes place after back element. */
-   void append (int data) { 
+   void append (Object data) { 
       Node app = new Node(data);
       if (front == null) { 
          front = app;
@@ -132,11 +139,12 @@ class List {
          back.next = app;
          back      = app;
       }
+      ++length;
    }
 
    /* Insert new element before cursor.
       Pre: length() > 0, index() >= 0 */
-   void insertBefore (int data) {
+   void insertBefore (Object data) {
       if (cursor == null) throw new RuntimeException
                           ("insertBefore: cursor is null\n");
       Node insb = new Node(data);
@@ -144,11 +152,12 @@ class List {
       insb.next = cursor;
       insb.prev = cursor.prev;
       cursor.prev = insb;
+      ++length;
    }
 
    /* Inserts new element after cursor.
       Pre: length() > 0, index() > = 0 */
-   void insertAfter (int data) {
+   void insertAfter (Object data) {
       if (cursor == null) throw new RuntimeException
                           ("insertAfter: cursor is null\n");
       Node insa = new Node(data);
@@ -156,26 +165,53 @@ class List {
       insa.prev = cursor;
       insa.next = cursor.next;
       cursor.next = insa;
+      ++length;
    }
 
    /* Deletes the front element. Pre: length() > 0 */
-   void deleteFront () {}
+   void deleteFront () {
+      if (length == 0) throw new RuntimeException
+                       ("deleteFront: list is empty\n");
+      front = front.next;
+      front.prev = null;
+      for (Node curr = front; curr != null; curr = curr.next) 
+         --curr.index; 
+      --length;
+   }
 
    /* Deletes the back element.  Pre: length() > 0 */
-   void deleteBack () {}
+   void deleteBack () {
+      if (length == 0) throw new RuntimeException
+                       ("deleteBack: list is empty\n");
+      back = back.prev;
+      back.next = null;
+      --length;
+   }
 
    /* Deletes cursor element, making cursor undefined. 
       Pre: length() > 0, index() >= 0 */
-   void delete () {}
-
+   void delete () {
+      if (cursor == null) throw new RuntimeException
+                          ("delete: cursor is null\n");
+      for (Node curr = cursor.next; curr != null; curr = curr.next) 
+         --curr.index;
+      cursor.prev.next = cursor.next;
+      cursor.next.prev = cursor.prev;
+      cursor = null;
+      --length;
+   }
 
    //********** Other methods **********
 
-   /* Overrides Object's tpString method.  Returns a String
+   /* Overrides Object's toString method.  Returns a String
       representation of this List consisting of a space 
-      separated sequence of integers, with front on left */
+      separated sequence of integers, with front on left. 
+      Returns null if list is empty */
    public String toString() {
-      return null;
+      String list = null; 
+      for (Node curr = front; curr != null; curr = curr.next) 
+         list += curr.toString() + " "; 
+      return list;
    }
 
    /* Returns a new List representing the same integer sequence as this

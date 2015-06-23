@@ -7,7 +7,7 @@ class Lex {
       if (args.length != 2) 
          throw new RuntimeException
                    ("There must be two command line arguments\n");
-      readFile(args[0]);
+      readFile(args[1]);
    }
    static void readFile(String filename) {
       try {
@@ -19,9 +19,11 @@ class Lex {
       }
       catch (FileNotFoundException ex) {
          err.printf("File: %s not found\n", filename);
+         System.exit(1);
       }
       catch (IOException ex) {
          err.printf("Error reading file: %s\n", filename);
+         System.exit(1);
       }
    }
 }

@@ -52,15 +52,22 @@ class List {
    /* Returns front element.  Pre: length() > 0 */
    Object front () {
       if (length == 0) throw new RuntimeException
-                       ("front: length is 0\n");
+                       ("front(): length is 0\n");
       return front.data;
    }
 
    /* Returns back element. Pre: lenght() > 0 */
    Object back () {
       if (length == 0) throw new RuntimeException
-                       ("back: length is 0\n");
+                       ("back(): length is 0\n");
       return back.data;
+   }
+
+   /* Returns element on cursor */
+   String cursorData () {
+      if (cursor == null) throw new RuntimeException
+                          ("cursorData(): cursor is null\n");
+      return cursor.toString();
    }
 
    /* Returns true if this List and L are the same integer
@@ -113,6 +120,7 @@ class List {
       insertion takes place before front element */
    void prepend (Object data) {
       Node prep = new Node(data);
+      out.printf(prep.toString());
       if (front == null) {
          front = prep;
          back  = prep;

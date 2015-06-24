@@ -32,13 +32,12 @@ class Lex {
    }
 
    static void insertLine(String line, List list) {
-      //out.printf("%s\n", line);
       if (list.length() == 0) { list.prepend(line); return; }
       list.moveFront();
       for (; list.index() >= 0; list.moveNext()) {
-         if (line.compareTo(list.cursorData()) == 0) return;
-         if (line.compareTo(list.cursorData())  < 0) 
-            { list.insertBefore(line); return; }
+         if (line.compareTo(list.cursorData()) == 0 ||
+             line.compareTo(list.cursorData())  < 0   ) 
+           { list.insertBefore(line); return; }
       }
       list.moveBack();
       list.insertAfter(line);

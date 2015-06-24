@@ -45,7 +45,7 @@ class List {
       otherwise returns -1 */
    int index () {
       if (cursor == null) return -1;
-      else return cursor.index;
+      else return cursor.index; 
    }
 
    /* Returns front element.  Pre: length() > 0 */
@@ -86,8 +86,8 @@ class List {
 
    /* Resets this List to its original empty state. */
    void clear () {
-      front = null;
-      back = null;
+      front  = null;
+      back   = null;
       cursor = null;
       length = 0;
    }
@@ -96,14 +96,16 @@ class List {
       otherwise does nothing */
    void moveFront () {
       if (length == 0) return;
-      else cursor = front;
+      cursor = front;
+      cursor.index = 0;
    }
 
    /* If List is non-empty, places the cursor under the back element,
       ootherwise does nothing */
    void moveBack () {
       if (length == 0) return;
-      else cursor = back;
+      cursor = back;
+      cursor.index = length - 1;
    }
 
    /* If cursor is defined and not at back, moves cursor one step toward
@@ -113,6 +115,7 @@ class List {
       if (cursor == null) return;
       if (cursor == back) { cursor = null; return; }
       cursor = cursor.next;
+      cursor.index += 1; 
    }
 
    /* Insert new element into this List.  If List is non-empty,
@@ -124,6 +127,8 @@ class List {
          back  = prep;
       }
       else {
+         for (Node curr = front.next; curr != null; curr = curr.next) 
+            ++curr.index;
          prep.next  = front;
          front.prev = prep;
          front      = prep;
@@ -153,10 +158,12 @@ class List {
    void insertBefore (Object data) {
       if (cursor == null) throw new RuntimeException
                           ("insertBefore: cursor is null\n");
-      Node insb = new Node(data);
-      insb.index = cursor.index - 1;
-      insb.next = cursor;
-      insb.prev = cursor.prev;
+      Node insb        = new Node(data);
+      insb.index       = cursor.index - 1;
+      insb.next        = cursor;
+      insb.prev        = cursor.prev;
+      if (cursor.prev == null) front = insb;
+      else cursor.prev.next = insb;
       cursor.prev = insb;
       ++length;
    }
@@ -166,10 +173,12 @@ class List {
    void insertAfter (Object data) {
       if (cursor == null) throw new RuntimeException
                           ("insertAfter: cursor is null\n");
-      Node insa = new Node(data);
-      insa.index = cursor.index + 1;
-      insa.prev = cursor;
-      insa.next = cursor.next;
+      Node insa        = new Node(data);
+      insa.index       = cursor.index + 1;
+      insa.prev        = cursor;
+      insa.next        = cursor.next;
+      if (cursor.next == null) back = insa; 
+      else cursor.next.prev = insa;
       cursor.next = insa;
       ++length;
    }
@@ -178,7 +187,7 @@ class List {
    void deleteFront () {
       if (length == 0) throw new RuntimeException
                        ("deleteFront: list is empty\n");
-      front = front.next;
+      front      = front.next;
       front.prev = null;
       for (Node curr = front; curr != null; curr = curr.next) 
          --curr.index; 
@@ -189,7 +198,7 @@ class List {
    void deleteBack () {
       if (length == 0) throw new RuntimeException
                        ("deleteBack: list is empty\n");
-      back = back.prev;
+      back      = back.prev;
       back.next = null;
       --length;
    }

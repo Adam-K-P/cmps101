@@ -100,7 +100,6 @@ class List {
    void moveFront () {
       if (length == 0) return;
       cursor = front;
-      cursor.index = 0;
    }
 
    /* If List is non-empty, places the cursor under the back element,
@@ -249,8 +248,9 @@ class List {
       List.  The cursor in the new list is undefined, regardless of the 
       state of the cursor in this List.  This List is unchanged */
    List copy () {
-      List copy   = this;  
-      copy.cursor = null;
+      List copy = new List();  
+      for (Node curr = front; curr != null; curr = curr.next) 
+         copy.append(curr.data);
       return copy;
    }
 

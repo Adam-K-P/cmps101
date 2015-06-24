@@ -14,13 +14,12 @@ class Lex {
                    ("There must be two command line arguments\n");
       List list = new List();
       try { 
-         Scanner in = new Scanner(new File(args[1])); 
+         Scanner in = new Scanner(new File(args[0])); 
          list = readFile(in);
       }
       catch (FileNotFoundException ex) 
-         { err.printf("File %s: not found\n", args[1]); }
-
-      out.printf("%s\n", list.toString());
+         { err.printf("File %s: not found\n", args[0]); }
+      writeFile(list, args[1]);
    }
    
    static List readFile(Scanner in) {
@@ -31,6 +30,7 @@ class Lex {
          String line = new String(buffer);
          insertLine(line, list);
       }
+      in.close();
       return list;
    }
 
@@ -44,6 +44,18 @@ class Lex {
       }
       list.moveBack();
       list.insertAfter(line);
+   }
+
+   static void writeFile(List list, String filename) {
+      try {
+         PrintWriter outFile = 
+                     new PrintWriter(new FileWriter(filename));
+         outFile.printf("%s\n", list.toString());
+         outFile.close();
+      }
+      catch (IOException ex) {
+         err.printf("Error writing to file: %s\n", filename); 
+      }
    }
 }
 

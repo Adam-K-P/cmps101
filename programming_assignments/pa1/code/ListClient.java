@@ -1,9 +1,6 @@
-//-----------------------------------------------------------------------------
-//  ListClient.java
-//  A test client for the List ADT. Use this to test your list module. The
-//  correct output is given below.
-//-----------------------------------------------------------------------------
-
+/* Adam Pinarbasi
+   akpinarb
+   pa1           */
 public class ListClient{
    public static void main(String[] args){
       List A = new List();

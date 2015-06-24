@@ -1,13 +1,6 @@
-#------------------------------------------------------------------------------
-#
-#  Makefile for CMPS 101 pa1 
-#  Compiles all .java files in the current directory and creates an executable
-#  jar file called Lex.  See the following for a short description of makefiles
-#
-#       https://classes.soe.ucsc.edu/cmps012b/Summer15/lab1.pdf
-#
-#------------------------------------------------------------------------------ 
-
+# Adam Pinarbasi
+# akpinarb
+# pa1
 MAINCLASS  = Lex
 JAVAC      = javac 
 JAVASRC    = $(wildcard *.java)

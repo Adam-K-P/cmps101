@@ -1,5 +1,6 @@
 #Adam Pinarbasi
-#makefile
+#akpinarb
+#pa1
 
 JAVAC 	= javac -Xlint
 JAVASRC 	= $(wildcard *.java)

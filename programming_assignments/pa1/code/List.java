@@ -1,3 +1,6 @@
+/* Adam Pinarbasi
+   akpinarb
+   pa1            */
 import static java.lang.System.out;
 import static java.lang.System.err;
 import java.io.*;
@@ -106,7 +109,7 @@ class List {
    void moveBack () {
       if (length == 0) return;
       cursor = back;
-      cursor.index = length - 1;
+      //cursor.index = length - 1;
    }
 
    /* If cursor is defined and not at front, moves cursor one step toward
@@ -115,7 +118,7 @@ class List {
    void movePrev () {
       if (cursor == null) return;
       if (cursor == front) { cursor = null; return; }
-      cursor = cursor.next;
+      cursor = cursor.prev;
    }
 
 
@@ -133,8 +136,8 @@ class List {
    void prepend (Object data) {
       Node prep = new Node(data);
       if (front == null) {
-         front = prep;
-         back  = prep;
+          front = prep;
+          back  = prep;
       }
       else {
          for (Node curr = front.next; curr != null; curr = curr.next) 
@@ -239,7 +242,7 @@ class List {
    public String toString() {
       String list = front.toString(); 
       for (Node curr = front.next; curr != null; curr = curr.next) 
-         list += curr.toString() + "\n"; 
+         list += " " + curr.toString();
       return list;
    }
 
@@ -247,7 +250,9 @@ class List {
       List.  The cursor in the new list is undefined, regardless of the 
       state of the cursor in this List.  This List is unchanged */
    List copy () {
-      return null;
+      List copy = this;
+      copy.cursor = null;
+      return copy;
    }
 
    /* Returns a new List which is the concatenation of 

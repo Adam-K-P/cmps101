@@ -8,11 +8,11 @@ import java.io.*;
 class List {
 
    private class Node {
-      Object data;
+      int data;
       int index;
       Node next;
       Node prev;
-      Node(Object dataIn) {
+      Node(int dataIn) {
          data  = dataIn;
          index = 0;
          next  = null;
@@ -52,28 +52,28 @@ class List {
    }
 
    /* Returns front element.  Pre: length() > 0 */
-   Object front () {
+   int front () {
       if (length == 0) throw new RuntimeException
                        ("front(): length is 0\n");
       return front.data;
    }
 
    /* Returns back element. Pre: lenght() > 0 */
-   Object back () {
+   int back () {
       if (length == 0) throw new RuntimeException
                        ("back(): length is 0\n");
       return back.data;
    }
 
    /* Returns element on cursor */
-   Object get () {
+   int get () {
       if (cursor == null) throw new RuntimeException
                           ("cursorData(): cursor is null\n");
       return cursor.data;
    }
 
    /* Returns true if this List and L are the same integer
-      sequence. The cursor is ignofred in both lists */
+      sequence. The cursor is ignored in both lists */
    boolean equals (List L) {
       if (L == null || length != L.length) return false;
       Node thisNode = front;
@@ -130,7 +130,7 @@ class List {
 
    /* Insert new element into this List.  If List is non-empty,
       insertion takes place before front element */
-   void prepend (Object data) {
+   void prepend (int data) {
       Node prep = new Node(data);
       if (front == null) { front = prep; back = prep; }
       else {
@@ -145,7 +145,7 @@ class List {
 
    /* Insert new element into this List.  If List is non-empty, 
       insertion takes place after back element. */
-   void append (Object data) { 
+   void append (int data) { 
       Node app = new Node(data);
       if (front == null) { 
          front = app;
@@ -162,7 +162,7 @@ class List {
 
    /* Insert new element before cursor.
       Pre: length() > 0, index() >= 0 */
-   void insertBefore (Object data) {
+   void insertBefore (int data) {
       if (cursor == null) throw new RuntimeException
                           ("insertBefore: cursor is null\n");
       Node insb  = new Node(data);
@@ -181,7 +181,7 @@ class List {
 
    /* Inserts new element after cursor.
       Pre: length() > 0, index() > = 0 */
-   void insertAfter (Object data) {
+   void insertAfter (int data) {
       if (cursor == null) throw new RuntimeException
                           ("insertAfter: cursor is null\n");
       Node insa  = new Node(data);

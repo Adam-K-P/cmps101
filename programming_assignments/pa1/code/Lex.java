@@ -8,46 +8,66 @@ import java.util.Scanner;
 
 class Lex {
 
-   public static void main(String[] args) {
+   public static void main (String[] args) {
       if (args.length != 2) 
          throw new RuntimeException
                    ("There must be two command line arguments\n");
       List list = new List();
       try { 
-         Scanner in = new Scanner(new File(args[0])); 
-         list = readFile(in);
+         Scanner inCount = new Scanner(new File(args[0])); 
+         list = readFile(inCount, args[0]);
       }
       catch (FileNotFoundException ex) 
          { err.printf("File %s: not found\n", args[0]); }
-      writeFile(list, args[1]);
    }
    
-   static List readFile(Scanner in) {
+   static List readFile (Scanner inCount, String filename) {
       List list = new List();
-      String buffer = null;
-      //FIXME put Strings into an array and delete white space 
-      while (in.hasNextLine()) {
-         buffer = in.nextLine();
-         String line = new String(buffer);
-         insertLine(line, list);
-      }
-      in.close();
+      int lineCount = 0;
+      while (inCount.hasNextLine()) 
+           { inCount.nextLine(); ++lineCount; }
+      inCount.close();
+      putInArray(filename, lineCount, list);
       return list;
    }
 
-   static void insertLine(String line, List list) {
-      if (list.length() == 0) { list.prepend(line); return; }
-      list.moveFront();
-      for (; list.index() >= 0; list.moveNext()) {
-         if (line.compareTo((String)list.get()) == 0 ||
-             line.compareTo((String)list.get())  < 0   ) 
-           { list.insertBefore(line); return; }
+   static void putInArray (String filename, int lineCount, 
+                                            List list) {
+      Scanner infile = null;
+      try { infile = new Scanner(new File(filename)); }
+      catch (FileNotFoundException ex) 
+         { err.printf("File: %s not found\n", filename); }
+      String[] file = new String[lineCount];
+      int index = 0;
+      String buffer = null;
+      while (infile.hasNextLine()) {
+         buffer = infile.nextLine();
+         String line = new String(buffer);
+         file[index++] = line;
       }
-      list.moveBack();
-      list.insertAfter(line);
+      if (file.length == 0) {
+         err.printf("File: %s is empty\n", filename);
+         return;
+      }
+      sortFile(file, list);
+      infile.close();
    }
 
-   static void writeFile(List list, String filename) {
+   static void sortFile (String[] file, List list) {
+      for (int i = 0; i < file.length; ++i) {
+         int smallest = i;
+         for (int j = i + 1; j < file.length; ++j) 
+            if (file[j].compareTo(file[smallest]) < 0) smallest = j;
+         out.printf("%d\n", smallest);
+         list.append(smallest);
+      }
+   }
+
+   static void writeFile (List list, String filename) {
+      if (list == null) {
+         err.printf("writeFile(): list is null\n");
+         return;
+      }
       try {
          PrintWriter outFile = 
                      new PrintWriter(new FileWriter(filename));
@@ -55,7 +75,8 @@ class Lex {
          outFile.close();
       }
       catch (IOException ex) {
-         err.printf("Error writing to file: %s\n", filename); 
+         err.printf("writeFile(): Error writing to file: %s\n",
+                                                   filename); 
       }
    }
 }

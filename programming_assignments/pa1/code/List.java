@@ -13,10 +13,10 @@ class List {
       Node next;
       Node prev;
       Node(Object dataIn) {
-         data = dataIn;
+         data  = dataIn;
          index = 0;
-         next = null;
-         prev = null;
+         next  = null;
+         prev  = null;
       }
       public String toString() {
          return String.valueOf(data);
@@ -75,8 +75,7 @@ class List {
    /* Returns true if this List and L are the same integer
       sequence. The cursor is ignofred in both lists */
    boolean equals (List L) {
-      if (L == null)          return false;
-      if (length != L.length) return false;
+      if (L == null || length != L.length) return false;
       Node thisNode = front;
       for (Node LNode = L.front; LNode != null && thisNode != null; 
                 LNode = LNode.next) {
@@ -109,7 +108,6 @@ class List {
    void moveBack () {
       if (length == 0) return;
       cursor = back;
-      //cursor.index = length - 1;
    }
 
    /* If cursor is defined and not at front, moves cursor one step toward
@@ -135,10 +133,7 @@ class List {
       insertion takes place before front element */
    void prepend (Object data) {
       Node prep = new Node(data);
-      if (front == null) {
-          front = prep;
-          back  = prep;
-      }
+      if (front == null) { front = prep; back = prep; }
       else {
          for (Node curr = front.next; curr != null; curr = curr.next) 
             ++curr.index;
@@ -171,12 +166,14 @@ class List {
    void insertBefore (Object data) {
       if (cursor == null) throw new RuntimeException
                           ("insertBefore: cursor is null\n");
-      Node insb        = new Node(data);
-      insb.index       = cursor.index;
-      insb.next        = cursor;
-      insb.prev        = cursor.prev;
+      Node insb  = new Node(data);
+      insb.index = cursor.index;
+      insb.next  = cursor;
+      insb.prev  = cursor.prev;
+
       if (cursor.prev == null) front = insb;
       else cursor.prev.next = insb;
+
       cursor.prev = insb;
       for (Node curr = cursor; curr != null; curr = curr.next)
          ++curr.index;
@@ -188,12 +185,14 @@ class List {
    void insertAfter (Object data) {
       if (cursor == null) throw new RuntimeException
                           ("insertAfter: cursor is null\n");
-      Node insa        = new Node(data);
-      insa.index       = cursor.index;
-      insa.prev        = cursor;
-      insa.next        = cursor.next;
+      Node insa  = new Node(data);
+      insa.index = cursor.index;
+      insa.prev  = cursor;
+      insa.next  = cursor.next;
+
       if (cursor.next == null) back = insa; 
       else cursor.next.prev = insa;
+
       cursor.next = insa;
       for (Node curr = insa; curr != null; curr = curr.next)
          ++curr.index;
@@ -250,7 +249,7 @@ class List {
       List.  The cursor in the new list is undefined, regardless of the 
       state of the cursor in this List.  This List is unchanged */
    List copy () {
-      List copy = this;
+      List copy   = this;  
       copy.cursor = null;
       return copy;
    }

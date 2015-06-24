@@ -3,13 +3,14 @@ import static java.lang.System.err;
 import java.io.*;
 
 class List {
+
    private class Node {
       Object data;
       int index;
       Node next;
       Node prev;
-      Node(Object data) {
-         data = data;
+      Node(Object dataIn) {
+         data = dataIn;
          index = 0;
          next = null;
          prev = null;
@@ -38,9 +39,7 @@ class List {
    //********** Access functions **********
 
    /* Returns the number of elements in this List */
-   int length () {
-      return length;
-   }
+   int length () { return length; }
 
    /* If cursor is defined, returns the index of the cursor element,
       otherwise returns -1 */
@@ -112,7 +111,7 @@ class List {
       undefined, if cursor is undefined does nothing */
    void moveNext () {
       if (cursor == null) return;
-      if (cursor == back) cursor = null;
+      if (cursor == back) { cursor = null; return; }
       cursor = cursor.next;
    }
 
@@ -120,7 +119,6 @@ class List {
       insertion takes place before front element */
    void prepend (Object data) {
       Node prep = new Node(data);
-      out.printf(prep.toString());
       if (front == null) {
          front = prep;
          back  = prep;

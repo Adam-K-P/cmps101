@@ -63,15 +63,16 @@ class List {
    }
 
    /* Returns element on cursor */
-   String cursorData () {
+   Object get () {
       if (cursor == null) throw new RuntimeException
                           ("cursorData(): cursor is null\n");
-      return cursor.toString();
+      return cursor.data;
    }
 
    /* Returns true if this List and L are the same integer
       sequence. The cursor is ignofred in both lists */
    boolean equals (List L) {
+      if (L == null)          return false;
       if (length != L.length) return false;
       Node thisNode = front;
       for (Node LNode = L.front; LNode != null && thisNode != null; 
@@ -108,6 +109,16 @@ class List {
       cursor.index = length - 1;
    }
 
+   /* If cursor is defined and not at front, moves cursor one step toward
+      front of this List, if cursor is defined and at front, cursor becomes
+      undefined, if cursor is undefined does nothing */
+   void movePrev () {
+      if (cursor == null) return;
+      if (cursor == front) { cursor = null; return; }
+      cursor = cursor.next;
+   }
+
+
    /* If cursor is defined and not at back, moves cursor one step toward
       back of this List, if cursor is defined and at back, cursor becomes
       undefined, if cursor is undefined does nothing */
@@ -115,7 +126,6 @@ class List {
       if (cursor == null) return;
       if (cursor == back) { cursor = null; return; }
       cursor = cursor.next;
-      cursor.index += 1; 
    }
 
    /* Insert new element into this List.  If List is non-empty,
@@ -159,12 +169,14 @@ class List {
       if (cursor == null) throw new RuntimeException
                           ("insertBefore: cursor is null\n");
       Node insb        = new Node(data);
-      insb.index       = cursor.index - 1;
+      insb.index       = cursor.index;
       insb.next        = cursor;
       insb.prev        = cursor.prev;
       if (cursor.prev == null) front = insb;
       else cursor.prev.next = insb;
       cursor.prev = insb;
+      for (Node curr = cursor; curr != null; curr = curr.next)
+         ++curr.index;
       ++length;
    }
 
@@ -174,12 +186,14 @@ class List {
       if (cursor == null) throw new RuntimeException
                           ("insertAfter: cursor is null\n");
       Node insa        = new Node(data);
-      insa.index       = cursor.index + 1;
+      insa.index       = cursor.index;
       insa.prev        = cursor;
       insa.next        = cursor.next;
       if (cursor.next == null) back = insa; 
       else cursor.next.prev = insa;
       cursor.next = insa;
+      for (Node curr = insa; curr != null; curr = curr.next)
+         ++curr.index;
       ++length;
    }
 
@@ -223,9 +237,9 @@ class List {
       separated sequence of integers, with front on left. 
       Returns null if list is empty */
    public String toString() {
-      String list = null; 
-      for (Node curr = front; curr != null; curr = curr.next) 
-         list += curr.toString() + " "; 
+      String list = front.toString(); 
+      for (Node curr = front.next; curr != null; curr = curr.next) 
+         list += curr.toString() + "\n"; 
       return list;
    }
 

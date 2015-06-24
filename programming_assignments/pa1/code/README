@@ -1,0 +1,20 @@
+/* Adam Pinarbasi
+   akpinarb
+   pa1            */
+
+
+List.java
+   Provides the List implementation for Lex and ListClient
+   
+ListClient.java
+   Tests the List interface
+
+Lex.java
+   Sorts an input file into lexicalgraphic order and returns it in the
+   form of a text file
+
+Makefile
+   Compiles the files.  Also can clean and submit them as well.
+
+README
+   Describes the files used in this assignment

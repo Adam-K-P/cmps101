@@ -25,6 +25,7 @@ class Lex {
    static List readFile(Scanner in) {
       List list = new List();
       String buffer = null;
+      //FIXME put Strings into an array and delete white space 
       while (in.hasNextLine()) {
          buffer = in.nextLine();
          String line = new String(buffer);

@@ -15,29 +15,28 @@ class Lex {
       List list = null;
       try { 
          Scanner inCount = new Scanner(new File(args[0])); 
-         list = readFile(inCount, args[0]);
+         list = readFile(inCount, args[0], args[1]);
       }
       catch (FileNotFoundException ex) 
          { err.printf("File %s: not found\n", args[0]); }
-      writeFile(list, args[1]);
    }
    
-   static List readFile (Scanner inCount, String filename) {
+   static List readFile (Scanner inCount, String infilename, String outfile) {
       List list = new List();
       int lineCount = 0;
       while (inCount.hasNextLine()) 
            { inCount.nextLine(); ++lineCount; }
       inCount.close();
-      putInArray(filename, lineCount, list);
+      putInArray(infilename, lineCount, outfile, list);
       return list;
    }
 
-   static void putInArray (String filename, int lineCount, 
-                                            List list) {
+   static void putInArray (String infilename, int lineCount, 
+                           String outfile , List list) {
       Scanner infile = null;
-      try { infile = new Scanner(new File(filename)); }
+      try { infile = new Scanner(new File(infilename)); }
       catch (FileNotFoundException ex) 
-         { err.printf("File: %s not found\n", filename); }
+         { err.printf("File: %s not found\n", infilename); }
       String[] file = new String[lineCount];
       int index = 0;
       String buffer = null;
@@ -47,10 +46,11 @@ class Lex {
          file[index++] = line;
       }
       if (file.length == 0) {
-         err.printf("File: %s is empty\n", filename);
+         err.printf("File: %s is empty\n", infilename);
          return;
       }
       sortFile(file, list);
+      writeFile(list, outfile, file);
       infile.close();
    }
 
@@ -75,27 +75,32 @@ class Lex {
       }
       for (int k = 0; k < file.length; ++k) {
          for (int m  = 0; m < file.length; ++m) {
-            if (file[m].compareTo(copy[k]) == 0) 
-               list.append(m);
+            if (file[m].compareTo(copy[k]) == 0 && 
+                !inList(m, list)) { list.append(m); break; }
          }
       }
    }
 
-   static void writeFile (List list, String filename) {
+   static boolean inList (int m, List list) {
+      for (list.moveFront(); list.index() >= 0; list.moveNext()) 
+         if (list.get() == m) return true;
+      return false;
+   }
+
+   static void writeFile (List list, String outfilename, String[] file) {
       if (list == null) {
          err.printf("writeFile(): list is null\n");
          return;
       }
-      try {
-         PrintWriter outFile = 
-                     new PrintWriter(new FileWriter(filename));
-         outFile.printf("%s\n", list.toString());
-         outFile.close();
-      }
+      PrintWriter outFile = null;
+      try { outFile = new PrintWriter(new FileWriter(outfilename)); }
       catch (IOException ex) {
          err.printf("writeFile(): Error writing to file: %s\n",
-                                                   filename); 
+                                                   outfilename); 
       }
+      for (list.moveFront(); list.index() >= 0; list.moveNext()) 
+         outFile.printf("%s\n", file[list.get()]);
+      outFile.close();
    }
 }
 

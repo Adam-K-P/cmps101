@@ -41,9 +41,11 @@ class List {
 
    //********** Access functions **********
 
+   // length
    /* Returns the number of elements in this List */
    int length () { return length; }
 
+   // index
    /* If cursor is defined, returns the index of the cursor element,
       otherwise returns -1 */
    int index () {
@@ -51,6 +53,7 @@ class List {
       else return cursor.index; 
    }
 
+   // front
    /* Returns front element.  Pre: length() > 0 */
    int front () {
       if (length == 0) throw new RuntimeException
@@ -58,6 +61,7 @@ class List {
       return front.data;
    }
 
+   // back
    /* Returns back element. Pre: lenght() > 0 */
    int back () {
       if (length == 0) throw new RuntimeException
@@ -65,6 +69,7 @@ class List {
       return back.data;
    }
 
+   // get
    /* Returns element on cursor */
    int get () {
       if (cursor == null) throw new RuntimeException
@@ -72,6 +77,7 @@ class List {
       return cursor.data;
    }
 
+   // equals
    /* Returns true if this List and L are the same integer
       sequence. The cursor is ignored in both lists */
    boolean equals (List L) {
@@ -87,6 +93,7 @@ class List {
 
    //********** Manipulation procedures **********
 
+   // clear
    /* Resets this List to its original empty state. */
    void clear () {
       front  = null;
@@ -95,6 +102,7 @@ class List {
       length = 0;
    }
 
+   // moveFront
    /* If List is non-empty, places the cursor under the front element, 
       otherwise does nothing */
    void moveFront () {
@@ -102,6 +110,7 @@ class List {
       cursor = front;
    }
 
+   // moveBack
    /* If List is non-empty, places the cursor under the back element,
       ootherwise does nothing */
    void moveBack () {
@@ -109,6 +118,7 @@ class List {
       cursor = back;
    }
 
+   // movePrev
    /* If cursor is defined and not at front, moves cursor one step toward
       front of this List, if cursor is defined and at front, cursor becomes
       undefined, if cursor is undefined does nothing */
@@ -119,6 +129,7 @@ class List {
    }
 
 
+   // moveNext
    /* If cursor is defined and not at back, moves cursor one step toward
       back of this List, if cursor is defined and at back, cursor becomes
       undefined, if cursor is undefined does nothing */
@@ -128,6 +139,7 @@ class List {
       cursor = cursor.next;
    }
 
+   // prepend
    /* Insert new element into this List.  If List is non-empty,
       insertion takes place before front element */
    void prepend (int data) {
@@ -143,6 +155,7 @@ class List {
       ++length;
    }
 
+   // append
    /* Insert new element into this List.  If List is non-empty, 
       insertion takes place after back element. */
    void append (int data) { 
@@ -160,6 +173,7 @@ class List {
       ++length;
    }
 
+   // insertBefore
    /* Insert new element before cursor.
       Pre: length() > 0, index() >= 0 */
    void insertBefore (int data) {
@@ -179,6 +193,7 @@ class List {
       ++length;
    }
 
+   // insertAfter
    /* Inserts new element after cursor.
       Pre: length() > 0, index() > = 0 */
    void insertAfter (int data) {
@@ -198,6 +213,7 @@ class List {
       ++length;
    }
 
+   // deleteFront
    /* Deletes the front element. Pre: length() > 0 */
    void deleteFront () {
       if (length == 0) throw new RuntimeException
@@ -209,6 +225,7 @@ class List {
       --length;
    }
 
+   // deleteBack
    /* Deletes the back element.  Pre: length() > 0 */
    void deleteBack () {
       if (length == 0) throw new RuntimeException
@@ -218,6 +235,7 @@ class List {
       --length;
    }
 
+   // delete
    /* Deletes cursor element, making cursor undefined. 
       Pre: length() > 0, index() >= 0 */
    void delete () {
@@ -233,6 +251,7 @@ class List {
 
    //********** Other methods **********
 
+   // toString
    /* Overrides Object's toString method.  Returns a String
       representation of this List consisting of a space 
       separated sequence of integers, with front on left. 
@@ -244,6 +263,7 @@ class List {
       return list;
    }
 
+   // copy
    /* Returns a new List representing the same integer sequence as this
       List.  The cursor in the new list is undefined, regardless of the 
       state of the cursor in this List.  This List is unchanged */
@@ -254,6 +274,7 @@ class List {
       return copy;
    }
 
+   // concat
    /* Returns a new List which is the concatenation of 
       this list followed by L.  The cursor in the new List 
       is undefined, regardless of the states of the cursors

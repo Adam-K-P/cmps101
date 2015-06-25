@@ -1,6 +1,7 @@
 # Adam Pinarbasi
 # akpinarb
 # pa1
+
 MAINCLASS  = Lex
 JAVAC      = javac 
 JAVASRC    = $(wildcard *.java)
@@ -25,4 +26,7 @@ clean:
 
 submit_pa1:
 	submit cmps101-pt.u15 pa1 $(SOURCES)
+
+transfer_pa1:
+	scp -r ../../pa1/ akpinarb@unix.ucsc.edu:~/private/cmps101/programming_assignments/
 

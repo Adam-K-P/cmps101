@@ -12,13 +12,14 @@ class Lex {
       if (args.length != 2) 
          throw new RuntimeException
                    ("There must be two command line arguments\n");
-      List list = new List();
+      List list = null;
       try { 
          Scanner inCount = new Scanner(new File(args[0])); 
          list = readFile(inCount, args[0]);
       }
       catch (FileNotFoundException ex) 
          { err.printf("File %s: not found\n", args[0]); }
+      writeFile(list, args[1]);
    }
    
    static List readFile (Scanner inCount, String filename) {
@@ -77,9 +78,7 @@ class Lex {
             if (file[m].compareTo(copy[k]) == 0) 
                list.append(m);
          }
-         out.printf("%s\n", copy[k]);
       }
-      out.printf("%s\n", list.toString());
    }
 
    static void writeFile (List list, String filename) {

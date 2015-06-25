@@ -53,14 +53,33 @@ class Lex {
       infile.close();
    }
 
+   static String[] copyArray (String[] file) {
+      String[] copy = new String[file.length];
+      for (int i = 0; i < file.length; ++i) copy[i] = file[i];
+      return copy;
+   }
+
    static void sortFile (String[] file, List list) {
+      String[] copy = copyArray(file);
       for (int i = 0; i < file.length; ++i) {
-         int smallest = i;
-         for (int j = i + 1; j < file.length; ++j) 
-            if (file[j].compareTo(file[smallest]) < 0) smallest = j;
-         out.printf("%d\n", smallest);
-         list.append(smallest);
+         String smallstr = copy[i];
+         for (int j = i; j < file.length; ++j) {
+            if (copy[j].compareTo(copy[i])  < 0 && 
+                copy[j].compareTo(smallstr) < 0   ) {
+               smallstr = copy[j];
+               copy[j]  = copy[i];
+               copy[i]  = smallstr;
+            }
+         }
       }
+      for (int k = 0; k < file.length; ++k) {
+         for (int m  = 0; m < file.length; ++m) {
+            if (file[m].compareTo(copy[k]) == 0) 
+               list.append(m);
+         }
+         out.printf("%s\n", copy[k]);
+      }
+      out.printf("%s\n", list.toString());
    }
 
    static void writeFile (List list, String filename) {

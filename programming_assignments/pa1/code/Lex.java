@@ -8,6 +8,8 @@ import java.util.Scanner;
 
 class Lex {
 
+   // main
+   // Executes the program
    public static void main (String[] args) {
       if (args.length != 2) 
          throw new RuntimeException
@@ -21,6 +23,8 @@ class Lex {
          { err.printf("File %s: not found\n", args[0]); }
    }
    
+   // readFile
+   // Reads a file, and stores it into an array (where it is then sorted)
    static List readFile (Scanner inCount, String infilename, String outfile) {
       List list = new List();
       int lineCount = 0;
@@ -31,6 +35,9 @@ class Lex {
       return list;
    }
 
+   // putInArray
+   // Puts a file into a String array then sorts the array and writes
+   // it to an output file
    static void putInArray (String infilename, int lineCount, 
                            String outfile , List list) {
       Scanner infile = null;
@@ -49,18 +56,22 @@ class Lex {
          err.printf("File: %s is empty\n", infilename);
          return;
       }
-      sortFile(file, list);
+      sortArray(file, list);
       writeFile(list, outfile, file);
       infile.close();
    }
 
+   // copyArray
+   // Simply makes a copy of an array
    static String[] copyArray (String[] file) {
       String[] copy = new String[file.length];
       for (int i = 0; i < file.length; ++i) copy[i] = file[i];
       return copy;
    }
 
-   static void sortFile (String[] file, List list) {
+   // sortFile
+   // Sorts an array into lexicographic order
+   static void sortArray (String[] file, List list) {
       String[] copy = copyArray(file);
       for (int i = 0; i < file.length; ++i) {
          String smallstr = copy[i];
@@ -81,12 +92,17 @@ class Lex {
       }
    }
 
-   static boolean inList (int m, List list) {
+   // inList
+   // Checks whether a given index is in the list
+   static boolean inList (int index, List list) {
       for (list.moveFront(); list.index() >= 0; list.moveNext()) 
-         if (list.get() == m) return true;
+         if (list.get() == index) return true;
       return false;
    }
 
+   // writeFile
+   // Writes a String array to an output file in the order specified
+   // by list
    static void writeFile (List list, String outfilename, String[] file) {
       if (list == null) {
          err.printf("writeFile(): list is null\n");

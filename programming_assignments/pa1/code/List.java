@@ -18,6 +18,9 @@ class List {
          next  = null;
          prev  = null;
       }
+
+      // toString
+      // Overriden toString method for class Node
       public String toString() {
          return String.valueOf(data);
       }

@@ -2,6 +2,7 @@
 # akpinarb
 # pa1
 
+ASSIGNMENT = pa1
 MAINCLASS  = Lex
 JAVAC      = javac 
 JAVASRC    = $(wildcard *.java)
@@ -24,9 +25,9 @@ $(JARFILE): $(CLASSES)
 clean:
 	rm -f *.class $(JARFILE)
 
-submit_pa1:
-	submit cmps101-pt.u15 pa1 $(SOURCES)
+submit:
+	submit cmps101-pt.u15 $(ASSIGNMENT) $(SOURCES)
 
-transfer_pa1:
-	scp -r ../../pa1/ akpinarb@unix.ucsc.edu:~/private/cmps101/programming_assignments/
+transfer:
+	scp -r ../../$(ASSIGNMENT)/ akpinarb@unix.ucsc.edu:~/private/cmps101/programming_assignments/
 

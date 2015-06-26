@@ -25,7 +25,8 @@ class Lex {
    
    // readFile
    // Reads a file, and stores it into an array (where it is then sorted)
-   static List readFile (Scanner inCount, String infilename, String outfile) {
+   static List readFile (Scanner inCount, String infilename, 
+                                          String outfile) {
       List list = new List();
       int lineCount = 0;
       while (inCount.hasNextLine()) 

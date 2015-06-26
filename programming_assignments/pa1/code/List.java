@@ -52,8 +52,7 @@ class List {
    /* If cursor is defined, returns the index of the cursor element,
       otherwise returns -1 */
    int index () {
-      if (cursor == null) return -1;
-      else return cursor.index; 
+      return (cursor == null ? -1 : cursor.index);
    }
 
    // front
@@ -284,7 +283,10 @@ class List {
       in this List and L.  The states of this List and L are 
       unchanged */
    List concat (List L) {
-      return null;
+      List cat = copy();
+      for (Node curr = L.front; curr != null; curr = curr.next)
+         cat.append(curr.data);
+      return cat;
    }
 }
 

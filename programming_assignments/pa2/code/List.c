@@ -73,6 +73,7 @@ int get(List L) { return L.cursor->data; }
 // equals
 /* Find if List A equals List B */
 int equals(List A, List B) {  
+   if (A == NULL && B == NULL) return true;
    if ( ((A == NULL) ^ (B == NULL)) || 
         ((A.length == 0) ^ (B.length == 0)) ) return false;
    for (node *Anode, node*Bnode; 

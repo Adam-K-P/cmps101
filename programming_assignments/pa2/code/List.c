@@ -97,8 +97,8 @@ int get(List L) {
 // equals
 /* Find if List A equals List B */
 int equals(List A, List B) {  
-   if ( ((A == NULL) ^ (B == NULL)) || 
-        ((A.length == 0) ^ (B.length == 0)) ) return false;
+   if ((A == NULL ^ B == NULL) || A.length != B.length)    
+      return false;
    if (A == NULL || A.length == 0) return true; 
       /* means both are NULL or empty */
    for (node *Anode, node*Bnode; 
@@ -206,7 +206,7 @@ void insertAfter(List L, int data) {
    insa->next = L.cursor->next;
    L.cursor->next != NULL ? L.cursor->next->prev = insa :
                             L.back = insa;
-   L.cursor->next = insa;
+   L.cursor->next  = insa;
    ++L.length;
 }
 
@@ -250,22 +250,26 @@ void delete(List L) {
 /* Print the contents of the list */
 void printList(File *out, List L) {
    if (L == NULL) error("printList", "list is NULL");
-   for (node *curr = L.front; curr != NULL; 
-              curr = curr->next) 
+   for (node *curr = L.front; curr != NULL; curr = curr->next) 
       fprintf((curr == L.back ? "%d" : "%d "), curr->data);
 }
 
 // copyList
 /* Return a new copy of the list */
 List copyList(List L) {
-   (void)L;
-   return NULL;
+   if (L == NULL) return NULL;
+   List newL = newList();
+   for (node *curr = L.front; curr != NULL; curr = curr->next)
+      newL.append(curr->data);
+   return newL;
 }
 
 // concatList
 /* Concatenate List B onto List A */
 List concatList(List A, List B) {
-   (void)A;
-   (void)B;
-   return NULL;
+   A == NULL ? return B : (B == NULL ? return A : );
+   List cat = copy(A);
+   for (node *curr = B.front; curr != NULL; curr = curr->next)
+      cat.append(curr->data);
+   return cat;
 }

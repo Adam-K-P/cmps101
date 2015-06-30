@@ -11,7 +11,7 @@ typedef struct node {
    struct node *next;
    struct node *prev;
    int data;
-}node;
+} node;
 
 typedef struct List {
    node *front;
@@ -19,7 +19,7 @@ typedef struct List {
    node *cursor;
    int index;
    int length;
-}List;
+} List;
 
 static void error(char *function, char *message) {
    printf("Error in function %s: %s\n", function, message);
@@ -187,9 +187,9 @@ void insertBefore(List L, int data) {
    insb->data = data;
    insb->prev = L.cursor->prev;
    insb->next = L.cursor;
-   (L.cursor->prev != NULL) ? L.cursor->prev->next = insb :
-                              L.front = insb;
-   L.cursor->prev      = insb;
+   L.cursor->prev != NULL ? L.cursor->prev->next = insb :
+                            L.front = insb;
+   L.cursor->prev  = insb;
    ++L.index;
    ++L.length;
 }
@@ -204,33 +204,55 @@ void insertAfter(List L, int data) {
    insa->data = data;
    insa->prev = L.cursor;
    insa->next = L.cursor->next;
-
-   
+   L.cursor->next != NULL ? L.cursor->next->prev = insa :
+                            L.back = insa;
+   L.cursor->next = insa;
+   ++L.length;
 }
 
 // deleteFront
 /* Delete front element */
 void deleteFront(List L) {
-   (void)L;
+   if (L == NULL) error("deleteFront", "list is NULL");
+   if (L.front == NULL) error("deleteFront", 
+                              "front is NULL");
+   node *temp = L.front;
+   L.front = L.front->next;
+   free(temp);
+   *temp = NULL;
 }
 
 // deleteBack
 /* Delete back element */
 void deleteBack(List L) {
-   (void)L;
+   if (L == NULL) error("deleteBack", "list is NULL");
+   if (L.back == NULL) error("deleteBack", 
+                             "back is NULL");
+   node *temp = L.back;
+   L.back = L.back->prev;
+   free(temp);
+   *temp = NULL;
 }
 
 // delete
 /* Delete element under cursor */
 void delete(List L) {
-   (void)L;
+   if (L == NULL) error("delete", "list is NULL");
+   if (L.cursor == NULL) error("delete", 
+                               "cursor is NULL");
+   free(L.cursor);
+   *(L.cursor) = NULL;
+   L.index = -1;
+   --L.length;
 }
 
 // printList
 /* Print the contents of the list */
 void printList(File *out, List L) {
-   (void)out;
-   (void)L;
+   if (L == NULL) error("printList", "list is NULL");
+   for (node *curr = L.front; curr != NULL; 
+              curr = curr->next) 
+      fprintf((curr == L.back ? "%d" : "%d "), curr->data);
 }
 
 // copyList

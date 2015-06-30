@@ -1,0 +1,291 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                          ("cursorData(): cursor is null\n");
+                          ("delete: cursor is null\n");
+                          ("insertAfter: cursor is null\n");
+                          ("insertBefore: cursor is null\n");
+                       ("back(): length is 0\n");
+                       ("deleteBack: list is empty\n");
+                       ("deleteFront: list is empty\n");
+                       ("front(): length is 0\n");
+                LNode = LNode.next) {
+            ++curr.index;
+         ++curr.index;
+         ++curr.index;
+         --curr.index;
+         --curr.index; 
+         app.index = back.index + 1;
+         app.prev  = back;
+         back      = app;
+         back  = app;
+         back.next = app;
+         cat.append(curr.data);
+         copy.append(curr.data);
+         data  = dataIn;
+         for (Node curr = front.next; curr != null; curr = curr.next) 
+         front      = prep;
+         front = app;
+         front.prev = prep;
+         if (thisNode.data != LNode.data) return false;
+         index = 0;
+         list += " " + curr.toString();
+         next  = null;
+         prep.next  = front;
+         prev  = null;
+         return String.valueOf(data);
+         thisNode = thisNode.next;
+      ++length;
+      ++length;
+      ++length;
+      ++length;
+      --length;
+      --length;
+      --length;
+      // Overriden toString method for class Node
+      // toString
+      List cat = copy();
+      List copy = new List();  
+      List.  The cursor in the new list is undefined, regardless of the 
+      Node app = new Node(data);
+      Node insa  = new Node(data);
+      Node insb  = new Node(data);
+      Node next;
+      Node prep = new Node(data);
+      Node prev;
+      Node thisNode = front;
+      Node(int dataIn) {
+      Pre: length() > 0, index() > = 0 */
+      Pre: length() > 0, index() >= 0 */
+      Pre: length() > 0, index() >= 0 */
+      Returns null if list is empty */
+      String list = front.toString(); 
+      back      = back.prev;
+      back   = null;
+      back   = null;
+      back of this List, if cursor is defined and at back, cursor becomes
+      back.next = null;
+      cursor = back;
+      cursor = cursor.next;
+      cursor = cursor.prev;
+      cursor = front;
+      cursor = null;
+      cursor = null;
+      cursor = null;
+      cursor.next = insa;
+      cursor.next.prev = cursor.prev;
+      cursor.prev = insb;
+      cursor.prev.next = cursor.next;
+      else cursor.next.prev = insa;
+      else cursor.prev.next = insb;
+      else {
+      else {
+      for (Node LNode = L.front; LNode != null && thisNode != null; 
+      for (Node curr = L.front; curr != null; curr = curr.next)
+      for (Node curr = cursor.next; curr != null; curr = curr.next) 
+      for (Node curr = cursor; curr != null; curr = curr.next)
+      for (Node curr = front.next; curr != null; curr = curr.next) 
+      for (Node curr = front; curr != null; curr = curr.next) 
+      for (Node curr = front; curr != null; curr = curr.next) 
+      for (Node curr = insa; curr != null; curr = curr.next)
+      front      = front.next;
+      front  = null;
+      front  = null;
+      front of this List, if cursor is defined and at front, cursor becomes
+      front.prev = null;
+      if ( this == null) return true; //both must be null
+      if ((this == null ^ L == null) || length != L.length) return false;
+      if (cursor == null) return;
+      if (cursor == null) return;
+      if (cursor == null) throw new RuntimeException
+      if (cursor == null) throw new RuntimeException
+      if (cursor == null) throw new RuntimeException
+      if (cursor == null) throw new RuntimeException
+      if (cursor.next == null) back = insa; 
+      if (cursor.prev == null) front = insb;
+      if (front == null) { 
+      if (front == null) { front = prep; back = prep; }
+      if (length == 0) return;
+      if (length == 0) return;
+      if (length == 0) throw new RuntimeException
+      if (length == 0) throw new RuntimeException
+      if (length == 0) throw new RuntimeException
+      if (length == 0) throw new RuntimeException
+      in this List and L.  The states of this List and L are 
+      insa.index = cursor.index;
+      insa.next  = cursor.next;
+      insa.prev  = cursor;
+      insb.index = cursor.index;
+      insb.next  = cursor;
+      insb.prev  = cursor.prev;
+      insertion takes place after back element. */
+      insertion takes place before front element */
+      int data;
+      int index;
+      is undefined, regardless of the states of the cursors
+      length = 0;
+      length = 0;
+      ootherwise does nothing */
+      otherwise does nothing */
+      otherwise returns -1 */
+      public String toString() {
+      representation of this List consisting of a space 
+      return (cursor == null ? -1 : cursor.index);
+      return back.data;
+      return cat;
+      return copy;
+      return cursor.data;
+      return front.data;
+      return list;
+      return true;
+      separated sequence of integers, with front on left. 
+      sequence. The cursor is ignored in both lists */
+      state of the cursor in this List.  This List is unchanged */
+      this list followed by L.  The cursor in the new List 
+      unchanged */
+      undefined, if cursor is undefined does nothing */
+      undefined, if cursor is undefined does nothing */
+      }
+      }
+      }
+      }
+      }
+      }
+   /* Deletes cursor element, making cursor undefined. 
+   /* Deletes the back element.  Pre: length() > 0 */
+   /* Deletes the front element. Pre: length() > 0 */
+   /* If List is non-empty, places the cursor under the back element,
+   /* If List is non-empty, places the cursor under the front element, 
+   /* If cursor is defined and not at back, moves cursor one step toward
+   /* If cursor is defined and not at front, moves cursor one step toward
+   /* If cursor is defined, returns the index of the cursor element,
+   /* Insert new element before cursor.
+   /* Insert new element into this List.  If List is non-empty,
+   /* Insert new element into this List.  If List is non-empty, 
+   /* Inserts new element after cursor.
+   /* Overrides Object's toString method.  Returns a String
+   /* Resets this List to its original empty state. */
+   /* Returns a new List representing the same integer sequence as this
+   /* Returns a new List which is the concatenation of 
+   /* Returns back element. Pre: lenght() > 0 */
+   /* Returns element on cursor */
+   /* Returns front element.  Pre: length() > 0 */
+   /* Returns the number of elements in this List */
+   /* Returns true if this List and L are the same integer
+   // append
+   // back
+   // clear
+   // concat
+   // copy
+   // delete
+   // deleteBack
+   // deleteFront
+   // equals
+   // front
+   // get
+   // index
+   // insertAfter
+   // insertBefore
+   // length
+   // moveBack
+   // moveFront
+   // moveNext
+   // movePrev
+   // prepend
+   // toString
+   //********** Access functions **********
+   //********** Constructor **********
+   //********** Fields **********
+   //********** Manipulation procedures **********
+   //********** Other methods **********
+   List () {
+   List concat (List L) {
+   List copy () {
+   akpinarb
+   boolean equals (List L) {
+   int back () {
+   int front () {
+   int get () {
+   int index () {
+   int length () { return length; }
+   pa1            */
+   private Node back;
+   private Node cursor;
+   private Node front;
+   private class Node {
+   private int length;
+   public String toString() {
+   void append (int data) { 
+   void clear () {
+   void delete () {
+   void deleteBack () {
+   void deleteFront () {
+   void insertAfter (int data) {
+   void insertBefore (int data) {
+   void moveBack () {
+   void moveFront () {
+   void moveNext () {
+   void movePrev () {
+   void prepend (int data) {
+   }
+   }
+   }
+   }
+   }
+   }
+   }
+   }
+   }
+   }
+   }
+   }
+   }
+   }
+   }
+   }
+   }
+   }
+   }
+   }
+   }
+   }
+/* Adam Pinarbasi
+class List {
+import java.io.*;
+import static java.lang.System.err;
+import static java.lang.System.out;
+}

@@ -84,7 +84,7 @@ class List {
       sequence. The cursor is ignored in both lists */
    boolean equals (List L) {
       if ((this == null ^ L == null) || length != L.length) return false;
-      if (this == null) return true; //both must be null
+      if ( this == null) return true; //both must be null
       Node thisNode = front;
       for (Node LNode = L.front; LNode != null && thisNode != null; 
                 LNode = LNode.next) {
@@ -129,7 +129,6 @@ class List {
       if (cursor == null) return;
       cursor = cursor.prev;
    }
-
 
    // moveNext
    /* If cursor is defined and not at back, moves cursor one step toward

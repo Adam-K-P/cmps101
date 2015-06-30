@@ -22,21 +22,30 @@ typedef struct List {
 }List;
 
 static void error(char *function, char *message) {
-   printf("Error in - %s: %s\n", function, message);
+   printf("Error in function %s: %s\n", function, message);
    exit(EXIT_FAILURE);
 }
 
 // newList
 /* List constructor */
 List newList(void) {
-   List *thisList = malloc(sizeof(List))
-   clear(thisList);
-   return thisList;
+   List *thisList = malloc(sizeof(List));
+   clear(*thisList);
+   return *thisList;
+}
+
+node *newNode(void) {
+   node *newNode = malloc(sizeof(node));
+   newNode->next = NULL;
+   newNode->prev = NULL;
+   newNode->data = 0;
+   return newNode;
 }
 
 // freeList
 /* List destructor */
 void freeList(List *pL){
+   if (pL == NULL) error("freeList", "list is NULL");
    for (node *curr = pL->front; curr != NULL;) {
        node *temp = curr;
        curr = curr->next;
@@ -49,33 +58,49 @@ void freeList(List *pL){
 
 // length
 /* Get length */
-int length(List L){ return L.length; }
+int length(List L){ 
+   if (L == NULL) error ("length", "list is NULL");
+   return L.length; 
+}
 
 // index
 /* Get index */
-int index(List L) { return L.index; }
+int index(List L) {
+   if (L == NULL) error("index", "list is NULL");
+   return L.index;
+}
 
 // front
 /* Get front element */
 int front(List L) { 
+   if (L == NULL) error("front", "list is NULL");
    if (length == 0) error("front", "length is 0");
    return L.front->data; 
 }
 
 // back
 /* Get back element */
-int back(List L) { return L.back->data; }
+int back(List L) { 
+   if (L == NULL) error("back", "list is NULL");
+   if (L.back == NULL) error ("back", "back is NULL");
+   return L.back->data; 
+}
 
 // get
 /* Get element at cursor */
-int get(List L) { return L.cursor->data; }
+int get(List L) { 
+   if (L == NULL) error("get", "list is NULL");
+   if (L.cursor == NULL) error("get", "cursor is NULL");
+   return L.cursor->data; 
+}
 
 // equals
 /* Find if List A equals List B */
 int equals(List A, List B) {  
-   if (A == NULL && B == NULL) return true;
    if ( ((A == NULL) ^ (B == NULL)) || 
         ((A.length == 0) ^ (B.length == 0)) ) return false;
+   if (A == NULL || A.length == 0) return true; 
+      /* means both are NULL or empty */
    for (node *Anode, node*Bnode; 
         Anode != NULL && Bnode != NULL;
         Anode = Anode.next, Bnode = Bnode.next ) 
@@ -95,50 +120,92 @@ void clear(List L) {
 
 // moveFront
 /* Move cursor to front node */
-void moveFront(List L) { cursor = front; }
+void moveFront(List L) { 
+   if (L == NULL) error("moveFront", "list is NULL");
+   L.index = 0;
+   L.cursor = L.front;
+}
 
 // moveBack
 /* Move cursor to back node */
-void moveBack(List L) { cursor = back; }
+void moveBack(List L) {
+  if (L == NULL) error("moveBack", "list is NULL"); 
+  L.index = L.length - 1;
+  L.cursor = L.back;
+}
 
 // movePrev
 /* Move cursor to previous node */
 void movePrev(List L) { 
-
+   if (L == NULL) error("movePrev", "list is NULL");
+   if (L.cursor == NULL) return;
+   L.cursor = L.cursor->prev;
+   --L.index;
 }
 
 // moveNext
 /* Move cursor to next node */
 void moveNext(List L) {
-   (void)L;
+   if (L == NULL) error("moveNext", "list is NULL");
+   if (L.cursor == NULL) return;
+   if (L.cursor == L.back) { L.cursor = NULL; return; }
+   L.cursor = L.cursor->next;
+   ++L.index;
 }
 
 // prepend
 /* Prepend node to list */
 void prepend(List L, int data) {
-   (void)L;
-   (void)data;
+   if (L == NULL) error("prepend", "list is NULL");
+   node *prep    = newNode(); 
+   prep->data    = data;
+   prep->next    = L.front;
+   L.front->prev = prep;
+   L.front       = prep;
+   ++L.length;
 }
 
 // append
 /* Append node to list */
 void append(List L, int data) {
-   (void)L;
-   (void)data;
+   if (L == NULL) error("appaend", "list is NULL");
+   node *app    = newNode();
+   app->data    = data;
+   app->prev    = L.back;
+   L.back->next = app;
+   L.back       = app;
+   ++L.length;
 }
 
 // insertBefore
 /* Insert node before cursor */
 void insertBefore(List L, int data) {
-   (void)L;
-   (void)data;
+   if (L == NULL) error("insertBefore", "list is NULL");
+   if (L.cursor == NULL) error("insertBefore", 
+                               "cursor is NULL");
+   node *insb = newNode();
+   insb->data = data;
+   insb->prev = L.cursor->prev;
+   insb->next = L.cursor;
+   (L.cursor->prev != NULL) ? L.cursor->prev->next = insb :
+                              L.front = insb;
+   L.cursor->prev      = insb;
+   ++L.index;
+   ++L.length;
 }
 
 // insertAfter
 /* Insert node after cursor */
 void insertAfter(List L, int data) {
-   (void)L;
-   (void)data;
+   if (L == NULL) error("insertBefore", "list is NULL");
+   if (L.cursor == NULL) error("insertBefore", 
+                               "cursor is NULL");
+   node *insa = newNode();
+   insa->data = data;
+   insa->prev = L.cursor;
+   insa->next = L.cursor->next;
+
+   
 }
 
 // deleteFront

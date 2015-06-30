@@ -128,7 +128,6 @@ class List {
       undefined, if cursor is undefined does nothing */
    void movePrev () {
       if (cursor == null) return;
-      if (cursor == front) { cursor = null; return; }
       cursor = cursor.prev;
    }
 
@@ -139,7 +138,6 @@ class List {
       undefined, if cursor is undefined does nothing */
    void moveNext () {
       if (cursor == null) return;
-      if (cursor == back) { cursor = null; return; }
       cursor = cursor.next;
    }
 

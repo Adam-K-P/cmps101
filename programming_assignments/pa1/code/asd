@@ -1,0 +1,126 @@
+
+
+
+
+
+
+
+
+
+
+   
+                                       
+                                                   outfilename); 
+                                          String outfile) {
+                           String outfile , List list) {
+                   ("There must be two command line arguments\n");
+                !inList(m, list)) { list.append(m); break; }
+                copy[j].compareTo(smallstr) < 0   ) {
+               copy[i]  = smallstr;
+               copy[j]  = copy[i];
+               smallstr = copy[j];
+            if (copy[j].compareTo(copy[i])  < 0 && 
+            if (file[m].compareTo(copy[k]) == 0 && 
+            }
+           { inCount.nextLine(); ++lineCount; }
+         Scanner inCount = new Scanner(new File(args[0])); 
+         String line = new String(buffer);
+         String smallstr = copy[i];
+         buffer = infile.nextLine();
+         err.printf("File: %s is empty\n", infilename);
+         err.printf("writeFile(): Error writing to file: %s\n",
+         err.printf("writeFile(): list is null\n");
+         file[index++] = line;
+         for (int j = i; j < file.length; ++j) {
+         for (int m  = 0; m < file.length; ++m) {
+         if (list.get() == index) return true;
+         list = readFile(inCount, args[0], args[1]);
+         outFile.printf("%s\n", file[list.get()]);
+         return;
+         return;
+         throw new RuntimeException
+         { err.printf("File %s: not found\n", args[0]); }
+         { err.printf("File: %s not found\n", infilename); }
+         }
+         }
+      List list = new List();
+      List list = null;
+      PrintWriter outFile = null;
+      Scanner infile = null;
+      String buffer = null;
+      String[] copy = copyArray(file);
+      String[] copy = new String[file.length];
+      String[] file = new String[lineCount];
+      catch (FileNotFoundException ex) 
+      catch (FileNotFoundException ex) 
+      catch (IOException ex) {
+      for (int i = 0; i < file.length; ++i) copy[i] = file[i];
+      for (int i = 0; i < file.length; ++i) {
+      for (int k = 0; k < file.length; ++k) {
+      for (list.moveFront(); list.index() >= 0; list.moveNext()) 
+      for (list.moveFront(); list.index() >= 0; list.moveNext()) 
+      if (args.length != 2) 
+      if (file.length == 0) {
+      if (list == null) {
+      inCount.close();
+      infile.close();
+      int index = 0;
+      int lineCount = 0;
+      outFile.close();
+      putInArray(infilename, lineCount, outfile, list);
+      return copy;
+      return false;
+      return list;
+      sortArray(file, list);
+      try { 
+      try { infile = new Scanner(new File(infilename)); }
+      try { outFile = new PrintWriter(new FileWriter(outfilename)); }
+      while (inCount.hasNextLine()) 
+      while (infile.hasNextLine()) {
+      writeFile(list, outfile, file);
+      }
+      }
+      }
+      }
+      }
+      }
+      }
+   // Checks whether a given index is in the list
+   // Executes the program
+   // Puts a file into a String array then sorts the array and writes
+   // Reads a file, and stores it into an array (where it is then sorted)
+   // Simply makes a copy of an array
+   // Sorts an array into lexicographic order
+   // Writes a String array to an output file in the order specified
+   // by list
+   // copyArray
+   // inList
+   // it to an output file
+   // main
+   // putInArray
+   // readFile
+   // sortFile
+   // writeFile
+   akpinarb
+   pa1            */
+   public static void main (String[] args) {
+   static List readFile (Scanner inCount, String infilename, 
+   static String[] copyArray (String[] file) {
+   static boolean inList (int index, List list) {
+   static void putInArray (String infilename, int lineCount, 
+   static void sortArray (String[] file, List list) {
+   static void writeFile (List list, String outfilename, String[] file) {
+   }
+   }
+   }
+   }
+   }
+   }
+   }
+/* Adam Pinarbasi
+class Lex {
+import java.io.*;
+import java.util.Scanner;
+import static java.lang.System.err;
+import static java.lang.System.out;
+}

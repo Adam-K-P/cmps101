@@ -13,7 +13,7 @@ Lex.java
    Sorts an input file into lexicalgraphic order and returns it in the
    form of a text file
 
-Makefile
+makefile
    Compiles the files.  Also can clean and submit them as well.
 
 README

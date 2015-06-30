@@ -148,14 +148,13 @@ void movePrev(List L) {
 void moveNext(List L) {
    if (L == NULL) error("moveNext", "list is NULL");
    if (L.cursor == NULL) return;
-   if (L.cursor == L.back) { L.cursor = NULL; return; }
    L.cursor = L.cursor->next;
    ++L.index;
 }
 
 // prepend
 /* Prepend node to list */
-void prepend(List L, int data) {
+void prepend(List L, int data) { //FIXME fails if L.front is NULL
    if (L == NULL) error("prepend", "list is NULL");
    node *prep    = newNode(); 
    prep->data    = data;
@@ -167,7 +166,7 @@ void prepend(List L, int data) {
 
 // append
 /* Append node to list */
-void append(List L, int data) {
+void append(List L, int data) { //FIXME fails if L.front is NULL
    if (L == NULL) error("appaend", "list is NULL");
    node *app    = newNode();
    app->data    = data;
@@ -220,6 +219,7 @@ void deleteFront(List L) {
    L.front = L.front->next;
    free(temp);
    *temp = NULL;
+   --L.index;
 }
 
 // deleteBack
@@ -232,6 +232,7 @@ void deleteBack(List L) {
    L.back = L.back->prev;
    free(temp);
    *temp = NULL;
+   if (L.cursor == L.back) L.index = -1;
 }
 
 // delete
@@ -268,7 +269,7 @@ List copyList(List L) {
 /* Concatenate List B onto List A */
 List concatList(List A, List B) {
    A == NULL ? return B : (B == NULL ? return A : );
-   List cat = copy(A);
+   List cat = copyList(A);
    for (node *curr = B.front; curr != NULL; curr = curr->next)
       cat.append(curr->data);
    return cat;

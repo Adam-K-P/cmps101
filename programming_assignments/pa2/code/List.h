@@ -4,6 +4,15 @@
 #ifndef __LIST
 #define __LIST
 
+struct List {
+   struct node *front;
+   struct node *back;
+   struct node *cursor;
+   int index;
+   int length;
+};
+typedef struct List *List;
+
 // Constructors-Destructors
 List newList(void);
 void freeList(List *pL);
@@ -31,7 +40,7 @@ void deleteBack(List L);
 void delete(List L);
 
 // Other operations
-void printList(File *out, List L);
+void printList(FILE *out, List L);
 List copyList(List L);
 List concatList(List A, List B);
 

@@ -22,10 +22,13 @@ List.o : List.c List.h
 	gcc -c -std=c99 -Wall -Wextra -O3 -g List.c
 
 clean :
-	rm -f Lex ListClient Lex.o ListClient.o List.o
+	rm -f Lex ListClient Lex.o ListClient.o List.o .*.swp tags
 
 transfer :
 	scp -r ../../pa2 akpinarb@unix.ucsc.edu:~/private/cmps101/programming_assignments/
+
+tags :
+	ctags -R
 
 
 

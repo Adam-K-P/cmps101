@@ -10,18 +10,23 @@ Lex : Lex.o List.o
 	gcc -o Lex Lex.o List.o
 
 Lex.o : Lex.c List.h
-	gcc -c -std=c99 -Wall Lex.c
+	gcc -c -std=c99 -Wall -Wextra -O3 -g Lex.c
 
 ListClient: ListClient.o List.o
 	gcc -o ListClient ListClient.o List.o
 
 ListClient.o : ListClient.c List.h
-	gcc -c -std=c99 -Wall ListClient.c
+	gcc -c -std=c99 -Wall -Wextra -O3 -g ListClient.c
 
 List.o : List.c List.h
-	gcc -c -std=c99 -Wall List.c
+	gcc -c -std=c99 -Wall -Wextra -O3 -g List.c
 
 clean :
 	rm -f Lex ListClient Lex.o ListClient.o List.o
+
+transfer :
+	scp -r ../../pa2 akpinarb@unix.ucsc.edu:~/private/cmps101/programming_assignments/
+
+
 
  

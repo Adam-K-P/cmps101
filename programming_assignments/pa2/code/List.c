@@ -135,7 +135,7 @@ void moveNext(List L) {
 
 // prepend
 /* Prepend node to list */
-void prepend(List L, int data) { //FIXME fails if L.front is NULL
+void prepend(List L, int data) { 
    node *prep    = newNode(); 
    prep->data    = data;
    prep->next    = L->front;
@@ -152,7 +152,7 @@ void prepend(List L, int data) { //FIXME fails if L.front is NULL
 
 // append
 /* Append node to list */
-void append(List L, int data) { //FIXME fails if L.front is NULL
+void append(List L, int data) { 
    node *app    = newNode();
    app->data    = data;
    app->prev    = L->back;

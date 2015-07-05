@@ -2,6 +2,7 @@
    akpinarb
    pa2           */
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,29 +12,58 @@
 
 typedef struct file_info {
    char **line_array;
-   int length;
    size_t nr_lines;
 } file_info;
 
-file_info insert_file (FILE *infile, size_t nr_lines) {
+// insert_file
+/* inserts a file into an array and records the number of lines */
+file_info insert_file (FILE *infile, char **line_array, size_t nr_lines) {
    file_info this_file;
    char buffer[MAX_LENGTH];
-   char *line_array[nr_lines];
-   int length = 0;
-   while (fgets(buffer, MAX_LENGTH, infile) != NULL) {
+   for (size_t i = 0; fgets(buffer, MAX_LENGTH, infile) != NULL; ++i) {
       char *line = malloc(strlen(buffer) + 1);
-      line_array[length++] = line;
+      strcpy(line, buffer);
+      line_array[i] = line;
    }
-   for (int i = 0; i < length; ++i) printf("%s\n", line_array[i]);
    this_file.line_array = line_array;
-   this_file.length     = length;
    this_file.nr_lines   = nr_lines;
    return this_file;
 }
 
+// in_list
+/* checks to see if an index is in the list */
+bool in_list (int ind, List list) {
+   if (list == NULL || !length(list)) return false;
+   for (moveFront(list); index(list) >= 0; moveNext(list))
+      if (get(list) == ind) return true;
+   return false;
+}
+
+// sort_array
+/* sorts array indices into lexicographic order */
 void sort_array (List list, file_info this_file) {
-   char **holder;
-   for (int i = 0; i < this_file.length; ++i) {}
+   for (size_t i = 0; i < this_file.nr_lines; ++i) {
+      char *smallstr = NULL;
+      size_t smallind = 0;
+      for (size_t j = 0; j < this_file.nr_lines; ++j) {
+         if (!in_list(j, list)) {
+            if (smallstr == NULL) 
+               { smallstr = this_file.line_array[j]; smallind = j; }
+            if (strcmp((const char *)smallstr, 
+                       (const char *)this_file.line_array[j]) > 0) 
+               { smallstr = this_file.line_array[j]; smallind = j; }
+         }
+      }
+      printf("%s\n", smallstr);
+      append(list, smallind);
+   }
+}
+
+// print_array
+/* prints out the array in lexicographic order */
+void print_array (List list, FILE *outfile, char **line_array) {
+   for (moveFront(list); index(list) >= 0; moveNext(list)) 
+      fprintf(outfile, "%s\n", line_array[get(list)]);
 }
 
 int main (int argc, char **argv) {
@@ -42,7 +72,8 @@ int main (int argc, char **argv) {
       fprintf(stderr, "Usage: Lex [input file] [output file]\n");
       return EXIT_FAILURE;
    }
-   FILE *infile = fopen(argv[1], "r");
+   FILE *infile = NULL;
+   infile = fopen(argv[1], "r");
    if (infile == NULL) {
       fprintf(stderr, "File: %s not found", argv[1]);
       return EXIT_FAILURE;
@@ -50,11 +81,16 @@ int main (int argc, char **argv) {
    size_t nr_lines = 0;
    char buffer[MAX_LENGTH];
    while (fgets(buffer, MAX_LENGTH, infile) != NULL) ++nr_lines;
-   if(fclose(infile)) {
-      fprintf(stderr, "main(): failed to close %s\n", argv[1]);
+   if (!freopen(argv[1], "r", infile)) {
+      fprintf(stderr, "main(): failed to reopen %s\n", argv[1]);
       return EXIT_FAILURE;
    }
-   infile = fopen(argv[1], "r");
-   sort_array(list, insert_file(infile, nr_lines));
+   char *line_array[nr_lines];
+   FILE *outfile = fopen(argv[2], "w");
+   sort_array(list, insert_file(infile, line_array, nr_lines));
+   print_array(list, outfile, line_array);
+   fclose(infile);
+   fclose(outfile);
+   freeList(&list);
    return EXIT_SUCCESS;
 }

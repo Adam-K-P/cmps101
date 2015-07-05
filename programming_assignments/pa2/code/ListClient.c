@@ -7,7 +7,7 @@
 #include<stdlib.h>
 #include"List.h"
 
-int main(int argc, char* argv[]){
+int main(void) {
    
    List A = newList();
    List B = newList();

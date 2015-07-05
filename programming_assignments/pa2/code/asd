@@ -1,0 +1,309 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                               "cursor is NULL");
+
+                               "cursor is NULL");
+
+                               "cursor is NULL");
+
+                              "front is NULL");
+
+                             "back is NULL");
+
+         curr = curr->next;
+
+         freeNode(&temp);
+
+         node *temp = curr;
+
+        Anode != NULL && Bnode != NULL;
+
+        Anode = Anode->next, Bnode = Bnode->next ) 
+
+      *dNode = NULL;
+
+      *pL = NULL;
+
+      L->back       = app;
+
+      L->back    = app;
+
+      L->back    = prep;
+
+      L->back->next = app;
+
+      L->front       = prep;
+
+      L->front   = app;
+
+      L->front   = prep;
+
+      L->front->prev = prep;
+
+      append(cat, curr->data);
+
+      append(newL, curr->data);
+
+      else fprintf(out, "%d ", curr->data);
+
+      for (node *curr = (*pL)->front; curr != NULL;) {
+
+      free(*dNode);
+
+      free(*pL); 
+
+      if (curr == L->back) fprintf(out, "%d", curr->data);
+
+      { if (Anode->data != Bnode->data) return false; }
+
+      }
+
+   *temp = NULL;
+
+   ++L->index;
+
+   ++L->index;
+
+   ++L->length;
+
+   ++L->length;
+
+   ++L->length;
+
+   ++L->length;
+
+   --L->index;
+
+   --L->index;
+
+   --L->length;
+
+   //L->index = -1;
+
+   L->back   = NULL;
+
+   L->back = L->back->prev;
+
+   L->cursor = L->cursor->next;
+
+   L->cursor = L->cursor->prev;
+
+   L->cursor = L->front;
+
+   L->cursor = NULL;
+
+   L->cursor = NULL;
+
+   L->cursor->next  = insa;
+
+   L->cursor->next->prev = L->cursor->prev;
+
+   L->cursor->prev  = insb;
+
+   L->cursor->prev->next = L->cursor->next;
+
+   L->front  = NULL;
+
+   L->front = L->front->next;
+
+   L->index  = -1;
+
+   L->index = 0;
+
+   L->length = 0;
+
+   List cat = copyList(A);
+
+   List newL = newList();
+
+   List thisList = malloc(sizeof(List));
+
+   akpinarb
+
+   app->data     = data;
+
+   app->prev     = L->back;
+
+   clear(thisList);
+
+   else L->back = insa;
+
+   else L->front = insb;
+
+   else {
+
+   else {
+
+   exit(EXIT_FAILURE);
+
+   for (node *Anode = A->front, *Bnode = B->front; 
+
+   for (node *curr = B->front; curr != NULL; curr = curr->next)
+
+   for (node *curr = L->front; curr != NULL; curr = curr->next)
+
+   for (node *curr = L->front; curr != NULL; curr = curr->next) {
+
+   free(*temp);
+
+   free(L->cursor);
+
+   free(temp);
+
+   if (A->length != B->length) return false;
+
+   if (L->back == NULL) error ("back", "back is NULL");
+
+   if (L->back == NULL) error("deleteBack", 
+
+   if (L->cursor == L->back) L->index = -1;
+
+   if (L->cursor == NULL) error("delete", 
+
+   if (L->cursor == NULL) error("get", "cursor is NULL");
+
+   if (L->cursor == NULL) error("insertBefore", 
+
+   if (L->cursor == NULL) error("insertBefore", 
+
+   if (L->cursor == NULL) return;
+
+   if (L->cursor == NULL) return;
+
+   if (L->cursor->next != NULL) L->cursor->next->prev = insa;
+
+   if (L->cursor->prev != NULL) L->cursor->prev->next = insb;
+
+   if (L->front == NULL) error("deleteFront", 
+
+   if (L->front == NULL) {
+
+   if (L->front == NULL) {
+
+   if (L->length == 0) error("front", "length is 0");
+
+   if (L->length == 0) error("moveBack", "length is 0"); 
+
+   if (L->length == 0) error("moveFront", "length is 0");
+
+   if (dNode != NULL && *dNode != NULL) {
+
+   if (pL != NULL && *pL != NULL) {
+
+   insa->data = data;
+
+   insa->next = L->cursor->next;
+
+   insa->prev = L->cursor;
+
+   insb->data = data;
+
+   insb->next = L->cursor;
+
+   insb->prev = L->cursor->prev;
+
+   int data;
+
+   newNode->data = 0;
+
+   newNode->next = NULL;
+
+   newNode->prev = NULL;
+
+   node **temp = &L->back;
+
+   node *app     = newNode();
+
+   node *insa = newNode();
+
+   node *insb = newNode();
+
+   node *newNode = malloc(sizeof(node));
+
+   node *prep    = newNode(); 
+
+   node *temp = L->front;
+
+   pa2           */
+
+   prep->data    = data;
+
+   prep->next    = L->front;
+
+   printf("Error in function %s: %s\n", function, message);
+
+   return L->back->data; 
+
+   return L->cursor->data; 
+
+   return L->front->data; 
+
+   return cat;
+
+   return newL;
+
+   return newNode;
+
+   return thisList;
+
+   return true;
+
+   struct node *next;
+
+   struct node *prev;
+
+   temp = NULL;
+
+  

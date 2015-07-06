@@ -28,4 +28,4 @@ transfer :
 	scp -r ../../pa2 akpinarb@unix.ucsc.edu:~/private/cmps101/programming_assignments/
 
 submit :
-	submit cmps101-pt.u15 Lex.c List.c ListClient.c Makefile README
+	submit cmps101-pt.u15 pa2 Lex.c List.c ListClient.c Makefile README

@@ -15,6 +15,10 @@ typedef struct file_info {
    size_t nr_lines;
 } file_info;
 
+void file_not_found (char *file) {
+   fprintf(stderr, "File: %s not found\n", file);
+   exit(EXIT_FAILURE);
+}
 // insert_file
 /* inserts a file into an array and records the number of lines */
 file_info insert_file (FILE *infile, char **line_array, size_t nr_lines) {
@@ -27,7 +31,7 @@ file_info insert_file (FILE *infile, char **line_array, size_t nr_lines) {
    }
    this_file.line_array = line_array;
    this_file.nr_lines   = nr_lines;
-   return this_file;
+   return this_file;  
 }
 
 // in_list
@@ -54,16 +58,18 @@ void sort_array (List list, file_info this_file) {
                { smallstr = this_file.line_array[j]; smallind = j; }
          }
       }
-      printf("%s\n", smallstr);
       append(list, smallind);
    }
 }
 
 // print_array
-/* prints out the array in lexicographic order */
+/* prints out the array in lexicographic order then frees each string*/
 void print_array (List list, FILE *outfile, char **line_array) {
-   for (moveFront(list); index(list) >= 0; moveNext(list)) 
+   for (moveFront(list); index(list) >= 0; moveNext(list)) {
       fprintf(outfile, "%s\n", line_array[get(list)]);
+      free(line_array[get(list)]);
+      line_array[get(list)] = NULL;
+   }
 }
 
 int main (int argc, char **argv) {
@@ -72,21 +78,17 @@ int main (int argc, char **argv) {
       fprintf(stderr, "Usage: Lex [input file] [output file]\n");
       return EXIT_FAILURE;
    }
-   FILE *infile = NULL;
-   infile = fopen(argv[1], "r");
-   if (infile == NULL) {
-      fprintf(stderr, "File: %s not found", argv[1]);
+   FILE *infile = fopen(argv[1], "r");
+   if (!infile) {
+      fprintf(stderr, "File: %s not found\n", argv[1]);
       return EXIT_FAILURE;
    }
    size_t nr_lines = 0;
    char buffer[MAX_LENGTH];
-   while (fgets(buffer, MAX_LENGTH, infile) != NULL) ++nr_lines;
-   if (!freopen(argv[1], "r", infile)) {
-      fprintf(stderr, "main(): failed to reopen %s\n", argv[1]);
-      return EXIT_FAILURE;
-   }
-   char *line_array[nr_lines];
+   while (fgets(buffer, MAX_LENGTH, infile)) ++nr_lines;
+   rewind(infile);
    FILE *outfile = fopen(argv[2], "w");
+   char *line_array[nr_lines];
    sort_array(list, insert_file(infile, line_array, nr_lines));
    print_array(list, outfile, line_array);
    fclose(infile);

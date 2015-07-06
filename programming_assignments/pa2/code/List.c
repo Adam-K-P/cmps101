@@ -13,15 +13,15 @@ typedef struct node {
    int data;
 } node;
 
-static void error (char *function, char *message) {
-   printf("Error in function %s: %s\n", function, message);
+void error (char *function, char *message) {
+   fprintf(stderr, "Error in function %s: %s\n", function, message);
    exit(EXIT_FAILURE);
 }
 
 // newList
 /* List constructor */
 List newList (void) {
-   List thisList = malloc(sizeof(List));
+   List thisList = malloc(sizeof(struct List));
    clear(thisList);
    return thisList;
 }
@@ -144,14 +144,8 @@ void prepend (List L, int data) {
    node *prep    = newNode(); 
    prep->data    = data;
    prep->next    = L->front;
-   if (L->front == NULL) {
-      L->front   = prep;
-      L->back    = prep;
-   }
-   else {
-      L->front->prev = prep;
-      L->front       = prep;
-   }
+   if (L->front == NULL) { L->front = prep; L->back = prep; }
+   else { L->front->prev = prep; L->front = prep; }
    ++L->length;
 }
 
@@ -161,22 +155,15 @@ void append (List L, int data) {
    node *app     = newNode();
    app->data     = data;
    app->prev     = L->back;
-   if (L->front == NULL) {
-      L->front   = app;
-      L->back    = app;
-   }
-   else {
-      L->back->next = app;
-      L->back       = app;
-   }
+   if (L->front == NULL) { L->front = app; L->back = app; }
+   else { L->back->next = app; L->back = app; }
    ++L->length;
 }
 
 // insertBefore
 /* Insert node before cursor */
 void insertBefore (List L, int data) {
-   if (L->cursor == NULL) error("insertBefore", 
-                               "cursor is NULL");
+   if (L->cursor == NULL) error("insertBefore", "cursor is NULL");
    node *insb = newNode();
    insb->data = data;
    insb->next = L->cursor;
@@ -191,8 +178,7 @@ void insertBefore (List L, int data) {
 // insertAfter
 /* Insert node after cursor */
 void insertAfter (List L, int data) {
-   if (L->cursor == NULL) error("insertBefore", 
-                               "cursor is NULL");
+   if (L->cursor == NULL) error("insertBefore", "cursor is NULL");
    node *insa = newNode();
    insa->data = data;
    insa->prev = L->cursor;
@@ -206,8 +192,7 @@ void insertAfter (List L, int data) {
 // deleteFront
 /* Delete front element */
 void deleteFront (List L) {
-   if (L->front == NULL) error("deleteFront", 
-                              "front is NULL");
+   if (L->front == NULL) error("deleteFront", "front is NULL");
    node *temp = L->front;
    L->front = L->front->next;
    free(temp);
@@ -218,8 +203,7 @@ void deleteFront (List L) {
 // deleteBack
 /* Delete back element */
 void deleteBack (List L) {
-   if (L->back == NULL) error("deleteBack", 
-                             "back is NULL");
+   if (L->back == NULL) error("deleteBack", "back is NULL");
    node **temp = &L->back;
    L->back = L->back->prev;
    free(*temp);
@@ -230,13 +214,12 @@ void deleteBack (List L) {
 // delete
 /* Delete element under cursor */
 void delete (List L) {
-   if (L->cursor == NULL) error("delete", 
-                               "cursor is NULL");
+   if (L->cursor == NULL) error("delete", "cursor is NULL");
    L->cursor->prev->next = L->cursor->next;
    L->cursor->next->prev = L->cursor->prev;
    free(L->cursor);
    L->cursor = NULL;
-   //L->index = -1;
+   L->index = -1;
    --L->length;
 }
 

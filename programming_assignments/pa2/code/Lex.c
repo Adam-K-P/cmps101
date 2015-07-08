@@ -66,9 +66,10 @@ void sort_array (List list, file_info this_file) {
 /* prints out the array in lexicographic order then frees each string*/
 void print_array (List list, FILE *outfile, char **line_array) {
    for (moveFront(list); index(list) >= 0; moveNext(list)) {
-      fprintf(outfile, "%s\n", line_array[get(list)]);
-      free(line_array[get(list)]);
-      line_array[get(list)] = NULL;
+      int index = get(list);
+      fprintf(outfile, "%s\n", line_array[index]);
+      free(line_array[index]);
+      line_array[index] = NULL;
    }
 }
 

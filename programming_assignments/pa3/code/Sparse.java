@@ -38,11 +38,10 @@ class Sparse {
       catch (PatternSyntaxException ex) 
          { err.pritnf("Illegal file syntax\n"); }
       int size = 0;
-      /*if (Pattern.matches("[0-9]++ [0-9]++ [0-9]++", firstline)) {
-
+      if (Pattern.matches("[0-9]++ [0-9]++ [0-9]++", firstline)) {
          out.printf("Pattern match\n");
       }
-      else throw new RuntimeException("Illegal input file format\n"); */
+      else throw new RuntimeException("Illegal input file format\n"); 
       return size;
    }
 }

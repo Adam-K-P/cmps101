@@ -7,7 +7,7 @@ import static java.lang.System.err;
 import java.io.*;
 import java.lang.String;
 import java.util.Scanner;
-import java.util.regex.Pattern;
+import java.util.regex.*;
 
 class Sparse {
 
@@ -30,16 +30,17 @@ class Sparse {
       return matx;
    }
 
+   /* static boolean checkInput(Scanner infile) {*/
+
+
    static int getSize(Scanner infile) {
+      String firstline;
       if (infile.hasNextLine()) firstline = infile.nextLine();
       else throw new RuntimeException("Illegal input file format\n");
-      String[] firstline = new String[3];
-      try { firstline = split("[0-9]++ [0-9]++ [0-9]++"); }
-      catch (PatternSyntaxException ex) 
-         { err.pritnf("Illegal file syntax\n"); }
-      int size = 0;
+      int[] sizes;
       if (Pattern.matches("[0-9]++ [0-9]++ [0-9]++", firstline)) {
-         out.printf("Pattern match\n");
+         String test[] = firstline.split(" ");
+
       }
       else throw new RuntimeException("Illegal input file format\n"); 
       return size;

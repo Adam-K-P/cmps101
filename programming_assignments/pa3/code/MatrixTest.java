@@ -22,20 +22,26 @@ class MatrixTest {
       out.printf("\n");
       Matrix Ma = m.scalarMult(2);
       String temp = Ma.toString();
-      out.printf("\n");
+      out.printf("%s\n", temp);
+
       String blah = m.toString();
-      out.printf("\n");
+      out.printf("%s\n", blah);
+
       Matrix pl = Ma.add(m);
       String he = pl.toString();
-      out.printf("\n");
+      out.printf("%s\n", he);
+
       Matrix sub = pl.sub(Ma);
       String su = sub.toString();
-      out.printf("\n");
+      out.printf("%s\n", su);
+
       Matrix tr = sub.transpose();
       String te = tr.toString();
-      out.printf("\n");
-      Matrix mul = tr.mult(Ma);
+      out.printf("%s\n", te);
+
+      Matrix mul = m.mult(sub);
       String mu = mul.toString();
+      out.printf("%s\n", mu);
 
    }
 }

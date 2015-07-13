@@ -61,10 +61,18 @@ class Matrix {
       rows = new List[size];
    }
 
-   //TODO
    //returns a new Matrix having the same entries as this Matrix
    Matrix copy () { 
-      return this;
+      Matrix copy = new Matrix(size);
+      for (int i = 0; i < size; ++i) {
+         List thisList = rows[i];
+         for (thisList.moveFront(); thisList.index() >= 0;
+              thisList.moveNext()) {
+            Entry thisEntry = (Entry)thisList.get();
+            copy.changeEntry(i, thisEntry.column, thisEntry.value);
+         }
+      }
+      return copy;
    }
 
    //changes ith row, jth column of this Matrix to x
@@ -75,8 +83,12 @@ class Matrix {
       List thisList = rows[i];
       for (thisList.moveFront(); thisList.index() >= 0; thisList.moveNext()) {
          Entry thisEntry = (Entry)thisList.get();
-         if (thisEntry.column == j) { thisEntry.value = x; return; }
+         if (thisEntry.column == j) { 
+            if (x == 0) { thisList.delete(); return; }
+            else { thisEntry.value = x; return; }
+         }
       }
+      if (x == 0) return;
       Entry thisEntry = new Entry(j, x);
       ++entries;
       for (thisList.moveFront(); thisList.index() >= 0; thisList.moveNext()) {
@@ -106,7 +118,7 @@ class Matrix {
    static void performOp (Matrix M, List thisList, List thatList, 
                           boolean add, int i) {
       for (thisList.moveFront(), thatList.moveFront(); 
-           thisList.index() >= 0 || thatList.index() >= 0;
+           thisList.index() >= 0 && thatList.index() >= 0;
            thisList.moveNext(), thatList.moveNext()) {
           Entry thisEntry = (Entry)thisList.get();
           Entry thatEntry = (Entry)thatList.get();
@@ -178,19 +190,26 @@ class Matrix {
       if (size != M.getSize())
          throw new RuntimeException("Matrices must have same size\n");
       Matrix prod = new Matrix(size);
+      Matrix tran = M.transpose(); 
       for (int i = 0; i < size; ++i) {
-         List thisList = rows[i];
-         for (thisList.moveFront(); thisList.index() >= 0; 
-              thisList.moveNext()) {
+         for (int j = 0; j < size; ++j) {
+            List thisList = rows[i];
+            List thatList = tran.rows[j];
             double value = 0;
-            Entry thisEntry = (Entry)thisList.get();
-            List thatList = M.rows[thisEntry.column];
-            for (thatList.moveFront(); thatList.index();
-                 thatList.moveNext()) {
+            for (thisList.moveFront(), thatList.moveFront();
+                 thisList.index() >= 0 && thatList.index() >= 0; ) {
+               Entry thisEntry = (Entry)thisList.get();
                Entry thatEntry = (Entry)thatList.get();
-               if (thatEntry.column == i) 
-                  value += thisEntry.value * thatEntry.value;
+               if (thisEntry.column == thatEntry.column) {
+                  value += (thisEntry.value * thatEntry.value);
+                  thisList.moveNext(); 
+                  thatList.moveNext(); 
+                  continue;
+               }
+               if (thisEntry.column > thatEntry.column) thatList.moveNext();
+               else thisList.moveNext();
             }
+            prod.changeEntry(i, j, value);
          }
       }
       return prod;
@@ -198,17 +217,17 @@ class Matrix {
 
    //other functions
    public String toString () {
-      String temp = new String();
+      String ret = new String();
       for (int i = 0; i < size; ++i) {
          List thisList = rows[i];
          for (thisList.moveFront(); thisList.index() >= 0; 
               thisList.moveNext()) {
             Entry thisEntry = (Entry)thisList.get();
-            out.printf("%f ", thisEntry.value);
+            ret += Double.toString(thisEntry.value) + " ";
          }
-         out.printf("\n");
+         ret += "\n";
       }
-      return temp;
+      return ret;
    }
 }
 

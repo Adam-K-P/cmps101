@@ -267,8 +267,7 @@ class List {
    /* Returns a new List representing the same integer sequence as this
       List.  The cursor in the new list is undefined, regardless of the 
       state of the cursor in this List.  This List is unchanged */
-  /* 
-   List copy () {
+   /*List copy () { 
       List copy = new List();  
       for (Node curr = front; curr != null; curr = curr.next) 
          copy.append(curr.data);

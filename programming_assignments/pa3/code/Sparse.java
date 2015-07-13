@@ -23,8 +23,7 @@ class Sparse {
    }
 
    static Matrix formMatrix(Scanner infile) {
-      Matrix matx = new Matrix(1);
-      List list = new List();
+      Matrix matx = new Matrix(3);
       int size = getSize(infile);
       out.printf("Sparse test\n");
       return matx;
@@ -32,15 +31,13 @@ class Sparse {
 
    /* static boolean checkInput(Scanner infile) {*/
 
-
    static int getSize(Scanner infile) {
+      int size = 0;
       String firstline;
       if (infile.hasNextLine()) firstline = infile.nextLine();
       else throw new RuntimeException("Illegal input file format\n");
-      int[] sizes;
       if (Pattern.matches("[0-9]++ [0-9]++ [0-9]++", firstline)) {
          String test[] = firstline.split(" ");
-
       }
       else throw new RuntimeException("Illegal input file format\n"); 
       return size;

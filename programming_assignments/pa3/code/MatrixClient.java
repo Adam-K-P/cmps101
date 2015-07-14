@@ -45,12 +45,12 @@ public class MatrixClient{
       System.out.println(G.getNNZ());
       System.out.println(G);
 
-      /*Matrix H = A.copy();
+      Matrix H = A.copy();
       System.out.println(H.getNNZ());
       System.out.println(H);
       System.out.println(A.equals(H));
       System.out.println(A.equals(B));
-      System.out.println(A.equals(A));*/
+      System.out.println(A.equals(A));
 
       A.makeZero();
       System.out.println(A.getNNZ());

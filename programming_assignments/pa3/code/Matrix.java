@@ -18,15 +18,6 @@ class Matrix {
          column = c;
          value = v;
       }
-
-      public boolean equals (Object x) {
-         return true;
-      }
-
-      public String toString () {
-         String temp = new String();
-         return temp;
-      }
    }
 
    int size;
@@ -43,22 +34,25 @@ class Matrix {
    }
 
    //Access function
-   int getSize () { //returns n, the number of rows and columns of this Matrix
-      return size;
-   }
+   //returns n, the number of rows and columns of this Matrix
+   int getSize () { return size; }
 
-   int getNNZ () { //returns the number of non-zero entries in this Matrix
-      return entries;
-   }
+   //int getNNX
+   //returns the number of non-zero entries in this Matrix
+   int getNNZ () { return entries; }
 
    //TODO
-   public boolean equals (Object x) { //overriedes Object's equals() method
+   //overriedes Object's equals() method
+   public boolean equals (Object x) { 
       return true;
    }
 
    //Manipulation procedures
    void makeZero () { //sets this Matrix to the zero state
-      rows = new List[size];
+      for (int i = 0; i < size; ++i) {
+         List thisList = rows[i];
+         thisList.clear();
+      }
    }
 
    //returns a new Matrix having the same entries as this Matrix
@@ -115,7 +109,7 @@ class Matrix {
 
    //performOp
    //if add is true, performs addition, otherwise performs subtraction
-   static void performOp (Matrix M, List thisList, List thatList, 
+   private static void performOp (Matrix M, List thisList, List thatList, 
                           boolean add, int i) {
       for (thisList.moveFront(), thatList.moveFront(); 
            thisList.index() >= 0 && thatList.index() >= 0;
@@ -147,6 +141,7 @@ class Matrix {
    Matrix add (Matrix M) {
       if (size != M.getSize()) 
          throw new RuntimeException("Matrices must have same size\n");
+      if (this == M) M = copy();
       Matrix add = new Matrix(size);
       for (int i = 0; i < size; ++i) {
          List thisList = rows[i];
@@ -161,6 +156,7 @@ class Matrix {
    Matrix sub (Matrix M) {
       if (size != M.getSize())
          throw new RuntimeException("Matrices must have same size\n");
+      if (this == M) M = copy();
       Matrix sub = new Matrix(size);
       for (int i = 0; i < size; ++i) {
          List thisList = rows[i];
@@ -184,6 +180,25 @@ class Matrix {
       return M;
     }
 
+   private static double dotProduct (List thisList, List thatList) {
+      double value = 0;
+      for (thisList.moveFront(), thatList.moveFront();
+           thisList.index() >= 0 && thatList.index() >= 0;) {
+         Entry thisEntry = (Entry)thisList.get();
+         Entry thatEntry = (Entry)thatList.get();
+         if (thisEntry.column == thatEntry.column) {
+            value += thisEntry.value * thatEntry.value;
+            thisList.moveNext(); 
+            thatList.moveNext();
+            continue;
+         }
+         if (thisEntry.column > thatEntry.column) thatList.moveNext();
+         else thisList.moveNext();
+      }
+      return value;
+   }
+
+
    //returns a new Matrix that is the product of this Matrix with M
    //pre: getSize() == M.getSize()
    Matrix mult (Matrix M) {
@@ -192,24 +207,11 @@ class Matrix {
       Matrix prod = new Matrix(size);
       Matrix tran = M.transpose(); 
       for (int i = 0; i < size; ++i) {
-         for (int j = 0; j < size; ++j) {
-            List thisList = rows[i];
+         List thisList = rows[i];
+         for (int j = 0; j < thisList.length(); ++j) {
             List thatList = tran.rows[j];
-            double value = 0;
-            for (thisList.moveFront(), thatList.moveFront();
-                 thisList.index() >= 0 && thatList.index() >= 0; ) {
-               Entry thisEntry = (Entry)thisList.get();
-               Entry thatEntry = (Entry)thatList.get();
-               if (thisEntry.column == thatEntry.column) {
-                  value += (thisEntry.value * thatEntry.value);
-                  thisList.moveNext(); 
-                  thatList.moveNext(); 
-                  continue;
-               }
-               if (thisEntry.column > thatEntry.column) thatList.moveNext();
-               else thisList.moveNext();
-            }
-            prod.changeEntry(i, j, value);
+            double dotp = dotProduct(thisList, thatList);
+            if (dotp != 0) prod.changeEntry(i, j, dotp);
          }
       }
       return prod;
@@ -219,13 +221,15 @@ class Matrix {
    public String toString () {
       String ret = new String();
       for (int i = 0; i < size; ++i) {
+         boolean addn = false;
          List thisList = rows[i];
          for (thisList.moveFront(); thisList.index() >= 0; 
               thisList.moveNext()) {
             Entry thisEntry = (Entry)thisList.get();
             ret += Double.toString(thisEntry.value) + " ";
+            addn = true;
          }
-         ret += "\n";
+         ret += addn ? "\n" : "";
       }
       return ret;
    }

@@ -5,7 +5,7 @@ import java.io.*;
 class MatrixTest {
 
    public static void main (String[] args) {
-      Matrix m = new Matrix(3);
+      Matrix m = new Matrix(1000000);
       int size = m.getSize();
       out.printf("size = %d\n", size);
 
@@ -31,7 +31,7 @@ class MatrixTest {
       String he = pl.toString();
       out.printf("%s\n", he);
 
-      Matrix sub = pl.sub(Ma);
+      Matrix sub = pl.sub(pl);
       String su = sub.toString();
       out.printf("%s\n", su);
 
@@ -39,7 +39,7 @@ class MatrixTest {
       String te = tr.toString();
       out.printf("%s\n", te);
 
-      Matrix mul = m.mult(sub);
+      Matrix mul = m.mult(m);
       String mu = mul.toString();
       out.printf("%s\n", mu);
 

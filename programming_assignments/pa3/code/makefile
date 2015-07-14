@@ -26,5 +26,9 @@ $(JARFILE): $(CLASSES)
 clean:
 	rm -f *.class $(JARFILE) .*.swp
 
+transfer:
+	scp -r ../../pa3/ akpinarb@unix.ucsc.edu:~/private/cmps101/programming_assignments/
+	
+
 
 

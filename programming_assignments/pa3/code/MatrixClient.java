@@ -19,22 +19,22 @@ public class MatrixClient{
       A.changeEntry(3,2,8); B.changeEntry(3,2,1);
       A.changeEntry(3,3,9); B.changeEntry(3,3,1);
 
-      /*System.out.println(A.getNNZ());
+      System.out.println(A.getNNZ());
       System.out.println(A);
 
       System.out.println(B.getNNZ());
-      System.out.println(B);*/
+      System.out.println(B);
 
-      //Matrix C = A.scalarMult(1.5);
-      //System.out.println(C.getNNZ());
-      //System.out.println(C);
+      Matrix C = A.scalarMult(1.5);
+      System.out.println(C.getNNZ());
+      System.out.println(C);
 
       Matrix D = A.add(A);
-      //System.out.println(D.getNNZ());
+      System.out.println(D.getNNZ());
       System.out.println(D);
 
       Matrix E = A.sub(A);
-      //System.out.println(E.getNNZ());
+      System.out.println(E.getNNZ());
       System.out.println(E);
 
       Matrix F = B.transpose();

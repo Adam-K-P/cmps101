@@ -10,6 +10,7 @@ class Matrix {
 
    private class Entry {
 
+      //Entry fields
       int column;
       double value;
 
@@ -20,6 +21,7 @@ class Matrix {
       }
    }
 
+   //Matrix fields
    int size;
    int entries;
    List[] rows;
@@ -133,34 +135,38 @@ class Matrix {
       return M;
    }
 
-   //performOp
-   //if add is true, performs addition, otherwise performs subtraction
-   private static void performOp (Matrix M, List thisList, List thatList, 
-                                  boolean add, int i) {
-      for (thisList.moveFront(), thatList.moveFront(); 
-           thisList.index() >= 0 && thatList.index() >= 0;
-           thisList.moveNext(), thatList.moveNext()) {
-          Entry thisEntry = (Entry)thisList.get();
-          Entry thatEntry = (Entry)thatList.get();
-          if (thisEntry.column == thatEntry.column) {
-             double value = (add == true ? thisEntry.value + thatEntry.value :
-                                           thisEntry.value - thatEntry.value);
-             M.changeEntry(i, thisEntry.column, value);
-             continue;
-          }
-          M.changeEntry(i, thisEntry.column, thisEntry.value);
-          M.changeEntry(i, thatEntry.column, thatEntry.value);
+   //addVectors
+   //adds two vectors together
+   static void addVectors (Matrix S, int row, List thisList, List thatList) {
+      for (thisList.moveFront(), thatList.moveFront();
+           thisList.index() >= 0 && thatList.index() >= 0;) {
+         Entry thisEntry = (Entry)thisList.get();
+         Entry thatEntry = (Entry)thatList.get();
+         if (thisEntry.column == thatEntry.column) {
+            double value = thisEntry.value + thatEntry.value;
+            S.changeEntry(row, thisEntry.column, value);
+            thisList.moveNext();
+            thatList.moveNext();
+            continue;
+         }
+         if (thisEntry.column > thatEntry.column) {
+            S.changeEntry(row, thatEntry.column, thatEntry.value);
+            thatList.moveNext();
+         }
+         else {
+            S.changeEntry(row, thisEntry.column, thisEntry.value);
+            thisList.moveNext();
+         }
       }
       for ( ; thisList.index() >= 0; thisList.moveNext()) {
          Entry thisEntry = (Entry)thisList.get();
-         M.changeEntry(i, thisEntry.column, thisEntry.value);
+         S.changeEntry(row, thisEntry.column, thisEntry.value);
       }
-      for ( ; thatList.index() >=0; thatList.moveNext()) {
-         Entry thatEntry = (Entry)thatList.get(); 
-         M.changeEntry(i, thatEntry.column, thatEntry.value);
+      for ( ; thatList.index() >= 0; thatList.moveNext()) {
+         Entry thatEntry = (Entry)thatList.get();
+         S.changeEntry(row, thatEntry.column, thatEntry.value);
       }
    }
-
 
    //add
    //returns a new Matrix that is the sum of this Matrix with M
@@ -173,7 +179,7 @@ class Matrix {
       for (int i = 0; i < size; ++i) {
          List thisList = rows[i];
          List thatList = M.rows[i];
-         performOp(add, thisList, thatList, true, i);
+         addVectors(add, i, thisList, thatList);
       }
       return add;
    }
@@ -185,13 +191,8 @@ class Matrix {
       if (size != M.getSize())
          throw new RuntimeException("Matrices must have same size\n");
       if (this == M) M = copy();
-      Matrix sub = new Matrix(size);
-      for (int i = 0; i < size; ++i) {
-         List thisList = rows[i];
-         List thatList = M.rows[i];
-         performOp(sub, thisList, thatList, false, i);
-      }
-      return sub;
+      Matrix N = M.scalarMult(-1);
+      return add(N);
    }
 
    //transpose
@@ -240,7 +241,7 @@ class Matrix {
       Matrix tran = M.transpose(); 
       for (int i = 0; i < size; ++i) {
          List thisList = rows[i];
-         for (int j = 0; j < thisList.length(); ++j) {
+         for (int j = 0; j < size; ++j) {
             List thatList = tran.rows[j];
             double dotp = dotProduct(thisList, thatList);
             if (dotp != 0) prod.changeEntry(i, j, dotp);
@@ -256,10 +257,12 @@ class Matrix {
       for (int i = 0; i < size; ++i) {
          boolean addn = false;
          List thisList = rows[i];
+         ret += (thisList.length() == 0 ? "" : ((i + 1) + ": "));
          for (thisList.moveFront(); thisList.index() >= 0; 
               thisList.moveNext()) {
             Entry thisEntry = (Entry)thisList.get();
-            ret += Double.toString(thisEntry.value) + " ";
+            ret += "(" + Integer.toString(thisEntry.column + 1) + ", ";
+            ret += Double.toString(thisEntry.value) + ") ";
             addn = true;
          }
          ret += addn ? "\n" : "";

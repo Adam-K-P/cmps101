@@ -24,7 +24,7 @@ $(JARFILE): $(CLASSES)
 	$(JAVAC) $<
 
 clean:
-	rm -f *.class $(JARFILE) .*.swp
+	rm -f *.class $(JARFILE) .*.swp in.* out.*
 
 transfer:
 	scp -r ../../pa3/ akpinarb@unix.ucsc.edu:~/private/cmps101/programming_assignments/

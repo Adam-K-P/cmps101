@@ -197,7 +197,8 @@ void deleteFront (List L) {
    L->front = L->front->next;
    free(temp);
    temp = NULL;
-   --L->index;
+   L->index = (L->cursor == L->front ? -1 : L->index - 1);
+   --L->length;
 }
 
 // deleteBack
@@ -209,12 +210,15 @@ void deleteBack (List L) {
    free(*temp);
    *temp = NULL;
    if (L->cursor == L->back) L->index = -1;
+   --L->length;
 }
 
 // delete
 /* Delete element under cursor */
 void delete (List L) {
    if (L->cursor == NULL) error("delete", "cursor is NULL");
+   if (L->cursor == L->front) { deleteFront(L); return; }
+   if (L->cursor == L->back) { deleteBack(L); return; }
    L->cursor->prev->next = L->cursor->next;
    L->cursor->next->prev = L->cursor->prev;
    free(L->cursor);

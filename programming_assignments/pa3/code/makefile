@@ -27,7 +27,7 @@ clean:
 	rm -f *.class $(JARFILE) .*.swp in.* out.*
 
 transfer:
-	scp $(SOURCES) akpinarb@unix.ucsc.edu:~/private/cmps101/programming_assignments/
+	scp $(SOURCES) akpinarb@unix.ucsc.edu:~/private/cmps101/programming_assignments/pa3/
 
 submit:
 	submit cmps101-pt.u15 pa3 $(SOURCES)

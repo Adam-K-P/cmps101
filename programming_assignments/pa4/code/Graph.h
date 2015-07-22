@@ -2,9 +2,12 @@
 #define __GRAPH
 
 #include <stdio.h>
+#include "List.h"
 
 #define INF -1
-#define NIL 0
+#define NIL -2
+
+typedef struct GraphObj *Graph;
 
 //Constructors-Destructors
 Graph newGraph (int);
@@ -26,3 +29,5 @@ void BFS (Graph, int);
 
 //Other operations
 void printGraph (FILE *, Graph);
+
+#endif

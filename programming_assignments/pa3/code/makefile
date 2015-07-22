@@ -7,7 +7,7 @@
 MAINCLASS  = Sparse
 JAVAC      = javac 
 JAVASRC    = $(wildcard *.java)
-SOURCES    = $(JAVASRC) Makefile README
+SOURCES    = $(JAVASRC) makefile README
 CLASSES    = $(patsubst %.java, %.class, $(JAVASRC))
 JARCLASSES = $(patsubst %.class, %*.class, $(CLASSES))
 JARFILE    = $(MAINCLASS) 
@@ -27,7 +27,10 @@ clean:
 	rm -f *.class $(JARFILE) .*.swp in.* out.*
 
 transfer:
-	scp -r ../../pa3/ akpinarb@unix.ucsc.edu:~/private/cmps101/programming_assignments/
+	scp $(SOURCES) akpinarb@unix.ucsc.edu:~/private/cmps101/programming_assignments/
+
+submit:
+	submit cmps101-pt.u15 pa3 $(SOURCES)
 	
 
 

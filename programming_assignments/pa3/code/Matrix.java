@@ -14,10 +14,17 @@ class Matrix {
       int column;
       double value;
 
+      //Entry
+      //constructor
       Entry (int c, double v) {
          if (c > size) throw new RuntimeException("Column must be <= size\n");
          column = c;
          value = v;
+      }
+
+      public boolean equals (Entry e) {
+         if (column == e.column && value == e.value) return true;
+         else return false;
       }
    }
 
@@ -60,9 +67,7 @@ class Matrix {
               thisList.moveNext(), thatList.moveNext()) {
             Entry thisEntry = (Entry)thisList.get();
             Entry thatEntry = (Entry)thatList.get();
-            if (thisEntry.value  != thatEntry.value ||
-                thisEntry.column != thatEntry.column)
-               return false;
+            if (!thisEntry.equals(thatEntry)) return false;
          }
       }
       return true;
@@ -104,12 +109,12 @@ class Matrix {
       for (thisList.moveFront(); thisList.index() >= 0; thisList.moveNext()) {
          Entry thisEntry = (Entry)thisList.get();
          if (thisEntry.column == j) { 
-            if (x == 0) { thisList.delete(); --entries; }
+            if (x == 0) { thisList.delete(); --entries; } //delete 0 value
             else thisEntry.value = x;
             return;
          }
       }
-      if (x == 0) return;
+      if (x == 0) return; //don't insert value of 0
       Entry thisEntry = new Entry(j, x);
       ++entries;
       for (thisList.moveFront(); thisList.index() >= 0; thisList.moveNext()) {
@@ -137,7 +142,8 @@ class Matrix {
 
    //addVectors
    //adds two vectors together
-   static void addVectors (Matrix S, int row, List thisList, List thatList) {
+   private static void addVectors (Matrix S, int row, List thisList, 
+                                                      List thatList) {
       for (thisList.moveFront(), thatList.moveFront();
            thisList.index() >= 0 && thatList.index() >= 0;) {
          Entry thisEntry = (Entry)thisList.get();
@@ -158,6 +164,7 @@ class Matrix {
             thisList.moveNext();
          }
       }
+      //change any remaining entries
       for ( ; thisList.index() >= 0; thisList.moveNext()) {
          Entry thisEntry = (Entry)thisList.get();
          S.changeEntry(row, thisEntry.column, thisEntry.value);
@@ -241,8 +248,10 @@ class Matrix {
       Matrix tran = M.transpose(); 
       for (int i = 0; i < size; ++i) {
          List thisList = rows[i];
+         if (thisList.length() == 0) continue; 
          for (int j = 0; j < size; ++j) {
             List thatList = tran.rows[j];
+            if (thatList.length() == 0) continue;
             double dotp = dotProduct(thisList, thatList);
             if (dotp != 0) prod.changeEntry(i, j, dotp);
          }

@@ -2,14 +2,21 @@ Adam Pinarbasi
 akpinarb
 pa3
 
-Makefile
-
 README
 
+Makefile
+
 List.java
+/* List ADT */
 
 Sparse.java
+/* Main program */
 
 Matrix.java
+/* Matrix ADT */
 
 MatrixTest.java
+/* Tests the matrix implementation */
+
+ListTest.java
+/* Tests the list implementation */

@@ -1,0 +1,62 @@
+	gcc -c -std=c11 -Wall -Wextra -O3 -g Lex.c
+
+	gcc -c -std=c11 -Wall -Wextra -O3 -g List.c
+
+	gcc -c -std=c11 -Wall -Wextra -O3 -g ListClient.c
+
+	gcc -o Lex Lex.o List.o
+
+	gcc -o ListClient ListClient.o List.o
+
+	rm -f Lex ListClient Lex.o ListClient.o List.o .*.swp 
+
+	scp -r ../../pa2 akpinarb@unix.ucsc.edu:~/private/cmps101/programming_assignments/
+
+	submit cmps101-pt.u15 pa2 Lex.c List.c ListClient.c Makefile README
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#
+
+#
+
+#       make                   makes Lex
+
+#       make ListClient        makes ListClient
+
+# Makefile for CMPS 101 Programming Assignment 2
+
+#------------------------------------------------------------------------------
+
+#------------------------------------------------------------------------------
+
+Lex : Lex.o List.o
+
+Lex.o : Lex.c List.h
+
+List.o : List.c List.h
+
+ListClient.o : ListClient.c List.h
+
+ListClient: ListClient.o List.o
+
+clean :
+
+submit :
+
+transfer :
+

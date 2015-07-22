@@ -1,4 +1,4 @@
-/* Adam Pinarbasi
+ /*Adam Pinarbasi
    akpinarb
    pa3           */
 
@@ -28,6 +28,7 @@ class Sparse {
       catch (IOException ex) 
          { err.printf("main(): Error writing to file: %s\n", args[1]); }
       printResults(A, B, outfile);
+      infile.close();
       outfile.close();
    }
 
@@ -40,36 +41,28 @@ class Sparse {
       outfile.printf("B has %d non-zero entries:\n%s\n", B.getNNZ(), bt);
 
       Matrix scal = A.scalarMult(1.5);
-      String scalS = scal.toString();
-      outfile.printf("(1.5)*A =\n%s\n", scalS);
+      outfile.printf("(1.5)*A =\n%s\n", scal.toString());
 
       Matrix sum = A.add(B);
-      String sumS = sum.toString();
-      outfile.printf("A+B =\n%s\n", sumS);
+      outfile.printf("A+B =\n%s\n", sum.toString());
 
       Matrix sumA = A.add(A);
-      String sumAS = sumA.toString();
-      outfile.printf("A+A =\n%s\n", sumAS);
+      outfile.printf("A+A =\n%s\n", sumA.toString());
 
       Matrix diff = B.sub(A);
-      String diffS = diff.toString();
-      outfile.printf("B-A =\n%s\n", diffS);
+      outfile.printf("B-A =\n%s\n", diff.toString());
 
       Matrix diffA = A.sub(A);
-      String diffAS = diffA.toString();
-      outfile.printf("A-A =\n%s\n", diffAS);
+      outfile.printf("A-A =\n%s\n", diffA.toString());
 
       Matrix tran = A.transpose();
-      String tranS = tran.toString();
-      outfile.printf("Transpose(A) =\n%s\n", tranS);
+      outfile.printf("Transpose(A) =\n%s\n", tran.toString());
 
       Matrix prod = A.mult(B);
-      String prodS = prod.toString();
-      outfile.printf("A*B =\n%s\n", prodS);
+      outfile.printf("A*B =\n%s\n", prod.toString());
 
       Matrix powB = B.mult(B);
-      String powBS = powB.toString();
-      outfile.printf("B*B = \n%s\n", powBS);
+      outfile.printf("B*B = \n%s\n", powB.toString());
    }
 
 
@@ -79,8 +72,8 @@ class Sparse {
       String buf;
       if (infile.hasNextLine()) buf = infile.nextLine();
       else throw new RuntimeException("Illegal input file format\n");
-      if (Pattern.matches("\n", buf)) 
-         throw new RuntimeException("Illegal input file format\n");
+      /*if (Pattern.matches("\n", buf)) 
+         throw new RuntimeException("Illegal input file format\n");*/
       for (int i = 0; i < sizes[index]; ++i) {
          if (infile.hasNextLine()) buf = infile.nextLine();
          else throw new RuntimeException("Illegal input file format\n");

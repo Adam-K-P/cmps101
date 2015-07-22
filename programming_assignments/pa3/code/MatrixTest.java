@@ -21,27 +21,21 @@ class MatrixTest {
 
       out.printf("\n");
       Matrix Ma = m.scalarMult(2);
-      String temp = Ma.toString();
-      out.printf("%s\n", temp);
+      out.printf("%s\n", Ma.toString());
 
-      String blah = m.toString();
-      out.printf("%s\n", blah);
+      out.printf("%s\n", m.toString());
 
       Matrix pl = Ma.add(m);
-      String he = pl.toString();
-      out.printf("%s\n", he);
+      out.printf("%s\n", pl.toString());
 
       Matrix sub = pl.sub(pl);
-      String su = sub.toString();
-      out.printf("%s\n", su);
+      out.printf("%s\n", sub.toString());
 
       Matrix tr = sub.transpose();
-      String te = tr.toString();
-      out.printf("%s\n", te);
+      out.printf("%s\n", tr.toString());
 
       Matrix mul = m.mult(m);
-      String mu = mul.toString();
-      out.printf("%s\n", mu);
+      out.printf("%s\n", mul.toString());
 
    }
 }

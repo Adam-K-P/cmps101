@@ -241,6 +241,8 @@ class List {
    void delete () {
       if (cursor == null) throw new RuntimeException
                           ("delete: cursor is null\n");
+      if (cursor == front) { deleteFront(); return; }
+      if (cursor == back)  { deleteBack(); return; }
       for (Node curr = cursor.next; curr != null; curr = curr.next) 
          --curr.index;
       cursor.prev.next = cursor.next;
@@ -257,6 +259,7 @@ class List {
       separated sequence of integers, with front on left. 
       Returns null if list is empty */
    public String toString() {
+      if (length == 0) return "";
       String list = front.toString(); 
       for (Node curr = front.next; curr != null; curr = curr.next) 
          list += " " + curr.toString();
@@ -267,12 +270,12 @@ class List {
    /* Returns a new List representing the same integer sequence as this
       List.  The cursor in the new list is undefined, regardless of the 
       state of the cursor in this List.  This List is unchanged */
-   /*List copy () { 
+   List copy () { 
       List copy = new List();  
       for (Node curr = front; curr != null; curr = curr.next) 
          copy.append(curr.data);
       return copy;
-   }*/
+   }
 
    // concat
    /* Returns a new List which is the concatenation of 
@@ -280,12 +283,12 @@ class List {
       is undefined, regardless of the states of the cursors
       in this List and L.  The states of this List and L are 
       unchanged */
-   /*List concat (List L) {
+   List concat (List L) {
       List cat = copy();
       for (Node curr = L.front; curr != null; curr = curr.next)
          cat.append(curr.data);
       return cat;
-   }*/
+   }
 }
 
 

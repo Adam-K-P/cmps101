@@ -8,9 +8,6 @@
 #include "Graph.h"
 #include "List.h"
 
-//Most recent vertex used in BFS
-int source = NIL; 
-
 struct GraphObj {
    List *adj;
    int *color;
@@ -18,6 +15,7 @@ struct GraphObj {
    int *distance;
    int order;
    int size;
+   int source;
 };
 
 static void error (char *function, char *message) {
@@ -38,7 +36,14 @@ Graph newGraph (int n) {
    thisGraph->distance  = calloc(n, sizeof(int)); 
    thisGraph->order     = n;
    thisGraph->size      = 0;
+   thisGraph->source    = NIL;
+   for (int i = 0; i < n; ++i) thisGraph->adj[i] = newList();
    return thisGraph;
+}
+
+//freeGraph
+//Graph destructor
+void freeGraph (Graph *G) {
 }
 
 //Access Functions
@@ -54,7 +59,7 @@ int getSize (Graph G) { return G->size; }
 //getSource
 //Returns source vertex most recently used in BFS 
 //Returns NIL if BFS has not been called
-int getSource (Graph G) { return source; }
+int getSource (Graph G) { return G->source; }
 
 //getParent
 //Returns parent of vertex u
@@ -67,9 +72,13 @@ int getDist (Graph G, int u ) { return G->distance[u]; }
 //getPath
 //Appends to List vertices of shortest path in G from source to u
 void getPath (List L, Graph G, int u) {
-   (void)L;
-   (void)G;
-   (void)u;
+   if (G->source == u) append(L, u);
+   else if (G->parent[u] == NIL) 
+      { printf("No path to %d\n", u); }
+   else {
+      getPath(L, G, G->parent[u]);
+      append(L, u);
+   }
 }
 
 //Manipulation Procedures
@@ -90,43 +99,56 @@ void makeNull (Graph G) {
 //addEdge
 //Inserts a new edge joining u to v
 void addEdge (Graph G, int u, int v) {
-   if (u > G->order || v > G->order) error("addEdge", "Invalid vertex value");
-
-   List uList = G->adj[u];
-   bool uIns = false;
-   for (moveFront(uList); index(uList) >= 0; moveNext(uList)) {
-      assert(v != get(uList));
-      if (v < get(uList)) { insertBefore(uList, v); uIns = true; }
-   }
-   if (!uIns) append(uList, v);
-
-   List vList = G->adj[v];
-   bool vIns = false;
-   for (moveFront(vList); index(vList) >= 0; moveNext(vList)) {
-      assert(u != get(vList));
-      if (u < get(vList)) { insertBefore(vList, u); vIns = true; }
-   }
-   if (!vIns) append(vList, u);
+   addArc(G, u, v);
+   addArc(G, v, u);
 }
 
 //addArc
 //Inserts a new directed edge from u to v
 //i.e. to the adjacency list of u and not v
 void addArc (Graph G, int u, int v) {
-   if (u > G->order || v > G->order) error("addEdge", "Invalid vertex value");
+   if (u > G->order || v > G->order) error("addArc", "Invalid vertex value");
    List uList = G->adj[u];
-   for (moveFront(uList); index(uList) >= 0;  moveNext(uList)) {
-      assert(v != get(uList));
-      if (v < get(uList)) { insertBefore(uList, v); return; }
+   if (length(uList) == 0) { append(uList, v); return; }
+   else {
+      for (moveFront(uList); index(uList) >= 0; moveNext(uList)) 
+         if (v < get(uList)) { insertBefore(uList, v); return; }
    }
    append(uList, v);
 }
 
 //BFS
 //Implements the Breadth First Search algorithm
+/* For the color values:
+   0 = white (undiscovered)
+   1 = grey  (discovered, but neighbors may be undiscovered)
+   2 = black (totally discovered)                           */
 void BFS (Graph G, int u) {
-   (void)G;
-   (void)u;
+   G->source = u;
+   for (int i = 0; i < G->order; ++i) {
+      G->color[i]    = 0;
+      G->distance[i] = INF;
+      G->parent[i]   = NIL;
+   }
+   G->color[u]    = 1;
+   G->distance[u] = 0;
+   List queue     = newList();
+   append(queue, u);
+   for (moveFront(queue); index(queue) >= 0;) {
+      int x = get(queue);
+      delete(queue);
+      List yList = G->adj[x];
+      for (moveFront(yList); index(yList) >= 0; moveNext(yList)) {
+         int y = get(yList);
+         if (G->color[y] == 0) {
+            G->color[y]    = 1;
+            G->distance[y] = G->distance[x] + 1;
+            G->parent[y]   = x;
+            append(queue, y);
+         }
+      }
+      G->color[x] = 2;
+   }
 }
 
 //Other Operations
@@ -136,6 +158,16 @@ void BFS (Graph G, int u) {
 void printGraph (FILE *out, Graph G) {
    (void)out;
    (void)G;
+   int n = G->order;
+   for (int i = 0; i < n; ++i) {
+      printf("%d: ", i);
+      List thisList = G->adj[i];
+      if (length(thisList) == 0) { printf("\n"); continue; }
+      for (moveFront(thisList); index(thisList) >= 0; moveNext(thisList)) 
+         printf("%d ", get(thisList));
+      printf("\n");
+   }
+
 }
 
 

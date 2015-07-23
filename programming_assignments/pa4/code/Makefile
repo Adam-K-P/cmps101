@@ -11,7 +11,7 @@
 BASE_SOURCES   = Graph.c List.c
 BASE_OBJECTS   = Graph.o List.o
 HEADERS        = Graph.h List.h
-COMPILE        = gcc -c -std=c99 -Wall
+COMPILE        = gcc -c -std=c99 -Wall -Wextra -g
 LINK           = gcc -o
 REMOVE         = rm -f
 MEMCHECK       = valgrind --leak-check=full

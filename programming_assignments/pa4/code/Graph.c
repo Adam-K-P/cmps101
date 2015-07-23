@@ -30,20 +30,33 @@ static void error (char *function, char *message) {
 //Graph constructor
 Graph newGraph (int n) {
    Graph thisGraph      = malloc(sizeof(struct GraphObj));
-   thisGraph->adj       = calloc(n, sizeof(struct List));
-   thisGraph->color     = calloc(n, sizeof(int)); 
-   thisGraph->parent    = calloc(n, sizeof(int));
-   thisGraph->distance  = calloc(n, sizeof(int)); 
+   thisGraph->adj       = calloc(n + 1, sizeof(struct List));
+   thisGraph->color     = calloc(n + 1, sizeof(int)); 
+   thisGraph->parent    = calloc(n + 1, sizeof(int));
+   thisGraph->distance  = calloc(n + 1, sizeof(int)); 
    thisGraph->order     = n;
    thisGraph->size      = 0;
    thisGraph->source    = NIL;
-   for (int i = 0; i < n; ++i) thisGraph->adj[i] = newList();
+   for (int i = 0; i < n + 1; ++i) thisGraph->adj[i] = newList();
    return thisGraph;
 }
 
 //freeGraph
 //Graph destructor
 void freeGraph (Graph *G) {
+   free((*G)->distance);
+   (*G)->distance = NULL;
+   free((*G)->parent);
+   (*G)->parent = NULL;
+   free((*G)->color);
+   (*G)->color = NULL;
+
+   for (int i = 0; i < (*G)->order + 1; ++i) freeList(&((*G)->adj[i]));
+   free((*G)->adj);
+   (*G)->adj = NULL;
+
+   free(*G);
+   *G = NULL;
 }
 
 //Access Functions
@@ -63,22 +76,30 @@ int getSource (Graph G) { return G->source; }
 
 //getParent
 //Returns parent of vertex u
-int getParent (Graph G, int u) { return G->parent[u]; }
+//pre: 1 <= u <= G->order
+int getParent (Graph G, int u) { 
+   if (u < 1 || u > G->order) error("getParent", "Invalid vertex number");
+   return G->parent[u]; 
+}
 
 //getDist
 //Returns distance from most recent source to vertex u
-int getDist (Graph G, int u ) { return G->distance[u]; }
+//pre: 1 <= u <= G->order
+int getDist (Graph G, int u ) { 
+   if (u < 1 || u > G->order) error("getDist", "Invalid vertex number");
+   return G->distance[u]; 
+}
 
 //getPath
 //Appends to List vertices of shortest path in G from source to u
+//pre: G->source != NIL
+//pre: 1 <= u <= G->order
 void getPath (List L, Graph G, int u) {
+   if (G->source == NIL) error("getPath", "G->source is NIL");
+   if (u < 1 || u > G->order) error("getPath", "Invalid vertex number");
    if (G->source == u) append(L, u);
-   else if (G->parent[u] == NIL) 
-      { printf("No path to %d\n", u); }
-   else {
-      getPath(L, G, G->parent[u]);
-      append(L, u);
-   }
+   else if (G->parent[u] == NIL) return; 
+   else { getPath(L, G, G->parent[u]); append(L, u); }
 }
 
 //Manipulation Procedures
@@ -106,8 +127,10 @@ void addEdge (Graph G, int u, int v) {
 //addArc
 //Inserts a new directed edge from u to v
 //i.e. to the adjacency list of u and not v
+//pre: 1 <= u && v <= G->order
 void addArc (Graph G, int u, int v) {
-   if (u > G->order || v > G->order) error("addArc", "Invalid vertex value");
+   if (u < 1 || v < 1 || u > G->order || v > G->order) 
+      error("addArc", "Invalid vertex number");
    List uList = G->adj[u];
    if (length(uList) == 0) { append(uList, v); return; }
    else {
@@ -125,7 +148,7 @@ void addArc (Graph G, int u, int v) {
    2 = black (totally discovered)                           */
 void BFS (Graph G, int u) {
    G->source = u;
-   for (int i = 0; i < G->order; ++i) {
+   for (int i = 1; i < G->order + 1; ++i) {
       G->color[i]    = 0;
       G->distance[i] = INF;
       G->parent[i]   = NIL;
@@ -138,6 +161,7 @@ void BFS (Graph G, int u) {
       int x = get(queue);
       delete(queue);
       List yList = G->adj[x];
+      if (length(yList) == 0) continue;
       for (moveFront(yList); index(yList) >= 0; moveNext(yList)) {
          int y = get(yList);
          if (G->color[y] == 0) {
@@ -148,7 +172,9 @@ void BFS (Graph G, int u) {
          }
       }
       G->color[x] = 2;
+      if (length(queue) > 0) moveFront(queue); //otherwise loop ends
    }
+   freeList(&queue);
 }
 
 //Other Operations
@@ -156,16 +182,14 @@ void BFS (Graph G, int u) {
 //printGraph
 //Prints the contents of the graph to the file, out
 void printGraph (FILE *out, Graph G) {
-   (void)out;
-   (void)G;
    int n = G->order;
-   for (int i = 0; i < n; ++i) {
-      printf("%d: ", i);
+   for (int i = 1; i < n + 1; ++i) {
+      fprintf(out, "%d: ", i);
       List thisList = G->adj[i];
-      if (length(thisList) == 0) { printf("\n"); continue; }
+      if (length(thisList) == 0) { fprintf(out, "\n"); continue; }
       for (moveFront(thisList); index(thisList) >= 0; moveNext(thisList)) 
-         printf("%d ", get(thisList));
-      printf("\n");
+         fprintf(out, "%d ", get(thisList));
+      fprintf(out, "\n");
    }
 
 }

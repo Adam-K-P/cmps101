@@ -62,6 +62,7 @@ class Matrix {
       for (int i = 0; i < size; ++i) {
          List thisList = rows[i];
          List thatList = M.rows[i];
+         if (thisList.length() != thatList.length()) return false;
          for (thisList.moveFront(), thatList.moveFront();
               thisList.index() >= 0 && thatList.index() >= 0;
               thisList.moveNext(), thatList.moveNext()) {

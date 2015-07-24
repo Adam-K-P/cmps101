@@ -18,15 +18,17 @@ struct GraphObj {
    int source;
 };
 
+//error
+//Simple error function
 static void error (char *function, char *message) {
-   printf("Error in function: %s : %s\n", function, message);
+   fprintf(stderr, "Error in function: %s : %s\n", function, message);
    exit(EXIT_FAILURE);
 }
    
 
 //Constructors-Destructors
 
-//Graph
+//newGraph
 //Graph constructor
 Graph newGraph (int n) {
    Graph thisGraph      = malloc(sizeof(struct GraphObj));

@@ -18,8 +18,6 @@ int main (void) {
    addEdge(G, 5, 6);
 
    BFS(G, 3);
-   FILE *temp;
-   printGraph(temp, G);
    List thisList = newList();
    getPath(thisList, G, 6);
    for (moveFront(thisList); index(thisList) >= 0; moveNext(thisList)) 

@@ -65,16 +65,16 @@ void freeGraph (Graph *G) {
 
 //getOrder
 //Returns the order of a Graph
-int getOrder (Graph G) { return G->order; }
+inline int getOrder (Graph G) { return G->order; }
 
 //getSize
 //Returns the size of a Graph (number of edges)
-int getSize (Graph G) { return G->size; }
+inline int getSize (Graph G) { return G->size; }
 
 //getSource
 //Returns source vertex most recently used in BFS 
 //Returns NIL if BFS has not been called
-int getSource (Graph G) { return G->source; }
+inline int getSource (Graph G) { return G->source; }
 
 //getParent
 //Returns parent of vertex u
@@ -124,6 +124,7 @@ void makeNull (Graph G) {
 void addEdge (Graph G, int u, int v) {
    addArc(G, u, v);
    addArc(G, v, u);
+   --G->size;
 }
 
 //addArc
@@ -136,10 +137,14 @@ void addArc (Graph G, int u, int v) {
    List uList = G->adj[u];
    if (length(uList) == 0) { append(uList, v); return; }
    else {
-      for (moveFront(uList); index(uList) >= 0; moveNext(uList)) 
+      for (moveFront(uList); index(uList) >= 0; moveNext(uList)) {
          if (v < get(uList)) { insertBefore(uList, v); return; }
+         if (v == get(uList)) 
+            error("addArc", "Cannot have two identical arcs");
+      }
    }
    append(uList, v);
+   ++G->size;
 }
 
 //BFS
@@ -193,20 +198,4 @@ void printGraph (FILE *out, Graph G) {
          fprintf(out, "%d ", get(thisList));
       fprintf(out, "\n");
    }
-
 }
-
-
-
-
-   
-
-
-
-
-
-
-
-
-
-

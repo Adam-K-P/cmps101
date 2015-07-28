@@ -15,6 +15,7 @@ COMPILE        = gcc -c -std=c99 -Wall -Wextra -g
 LINK           = gcc -o
 REMOVE         = rm -f
 MEMCHECK       = valgrind --leak-check=full
+SOURCES  		= Graph.c List.c List.h Graph.h GraphTest.c FindPath.c Makefile README
 
 GraphTest : GraphTest.o $(BASE_OBJECTS)
 	$(LINK) test GraphTest.o $(BASE_OBJECTS)
@@ -45,3 +46,9 @@ checkFind : FindPath
 
 checkClient : GraphClient
 	$(MEMCHECK) GraphClient
+
+transfer :
+	scp -r ../../pa4/ akpinarb@unix.ucsc.edu:~/private/cmps101/programming_assignments/pa4/
+
+submit :
+	submit cmps101-pt.u15 pa4 $(SOURCES)

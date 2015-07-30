@@ -22,7 +22,11 @@ void error (char *function, char *message) {
 /* List constructor */
 List newList (void) {
    List thisList = malloc(sizeof(struct List));
-   clear(thisList);
+   thisList->front  = NULL;
+   thisList->back   = NULL;
+   thisList->cursor = NULL;
+   thisList->index  = -1;
+   thisList->length = 0;
    return thisList;
 }
 
@@ -99,6 +103,9 @@ int equals (List A, List B) {
 // clear
 /* Clear out a List to defaults */
 void clear (List L) { 
+   if (L == NULL || L->front == NULL) return;
+   for (node *curr = L->front; curr != NULL; curr = curr->next) 
+      freeNode(&curr);
    L->front  = NULL;
    L->back   = NULL;
    L->cursor = NULL;
@@ -205,10 +212,10 @@ void deleteFront (List L) {
 /* Delete back element */
 void deleteBack (List L) {
    if (L->back == NULL) error("deleteBack", "back is NULL");
-   node **temp = &L->back;
+   node *temp = L->back;
    L->back = L->back->prev;
-   free(*temp);
-   *temp = NULL;
+   free(temp);
+   temp = NULL;
    if (L->cursor == L->back) L->index = -1;
    --L->length;
 }

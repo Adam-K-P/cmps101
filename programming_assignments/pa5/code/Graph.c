@@ -105,19 +105,21 @@ int getParent (Graph G, int u) {
 
 //visit
 //Helper function for DFS
-static void visit (Graph G, int x, int time) {
+static void visit (Graph G, int x, int *time) {
    G->color[x] = 1;
-   G->discover[x] = ++time;
-   for (List thisList = G->adj[x]; index(thisList) >= 0; 
-                                   moveNext(thisList)) {
-      int y = get(thisList);
-      if (G->color[y] == 0) {
-         G->parent[y] = x;
-         visit(G, x, time);
+   G->discover[x] = ++(*time);
+   List thisList = G->adj[x];
+   if (length(thisList) != 0) {
+      for (moveFront(thisList); index(thisList) >= 0; moveNext(thisList)) {
+         int y = get(thisList);
+         if (G->color[y] == 0) {
+            G->parent[y] = x;
+            visit(G, y, time);
+         }
       }
    }
    G->color[x]  = 2;
-   G->finish[x] = ++time;
+   G->finish[x] = ++(*time);
 }
 
 //DFS
@@ -126,16 +128,15 @@ static void visit (Graph G, int x, int time) {
    grey  = 1 (discovered with undiscovered children)
    black = 2 (discovered and children discovered) */
 void DFS (Graph G, List S) {
+   if (length(S) != G->order) error("DFS", "input List incomplete");
    int time = 0;
    for (int i = 1; i < G->order + 1; ++i) {
       G->color[i]  = 0;
       G->parent[i] = NIL;
    }
-   moveFront(S);
-   for (int i = 1; i < G->order + 1; ++i) {
-      if (index(S) < 0) error("DFS", "Input List incomplete");
-      if (G->color[i] == 0) visit(G, get(S), time);
-      moveNext(S);
+   for (moveFront(S); index(S) >= 0; moveNext(S)) {
+      int x = get(S);
+      if (G->color[x] == 0) visit(G, x, &time);
    }
 }
 
@@ -172,6 +173,8 @@ void addArc (Graph G, int u, int v) {
 //transpose
 //Retursn the transpose of a Graph
 Graph transpose (Graph G) {
+   //for (int i = 1; i <= G->order + 1; ++i) {
+
    return G;
 }
 

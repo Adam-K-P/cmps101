@@ -16,17 +16,17 @@ LINK           = gcc -o
 REMOVE         = rm -f
 MEMCHECK       = valgrind --leak-check=full
 
-FindComponents : FindComponents.o $(BASE_OBJECTS)
-	$(LINK) FindComponents FindComponents.o $(BASE_OBJECTS)
-
 GraphClient : GraphClient.o $(BASE_OBJECTS)
 	$(LINK) GraphClient GraphClient.o $(BASE_OBJECTS)
 
-FindComponents.o : FindComponents.c $(HEADERS)
-	$(COMPILE) FindComponents.c
-
 GraphClient.o : GraphClient.c $(HEADERS)
 	$(COMPILE) GraphClient.c
+
+FindComponents : FindComponents.o $(BASE_OBJECTS)
+	$(LINK) FindComponents FindComponents.o $(BASE_OBJECTS)
+
+FindComponents.o : FindComponents.c $(HEADERS)
+	$(COMPILE) FindComponents.c
 
 $(BASE_OBJECTS) : $(BASE_SOURCES) $(HEADERS)
 	$(COMPILE) $(BASE_SOURCES)

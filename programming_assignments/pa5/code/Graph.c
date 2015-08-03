@@ -24,7 +24,6 @@ static void error (char *function, char *message) {
    fprintf(stderr, "Error in function: %s : %s\n", function, message);
    exit(EXIT_FAILURE);
 }
-   
 
 //Constructors-Destructors
 
@@ -171,17 +170,29 @@ void addArc (Graph G, int u, int v) {
 //Other Operations
 
 //transpose
-//Retursn the transpose of a Graph
+//Returns the transpose of a Graph
 Graph transpose (Graph G) {
-   //for (int i = 1; i <= G->order + 1; ++i) {
-
-   return G;
+   Graph trans = newGraph(G->order);
+   for (int i = 1; i < G->order + 1; ++i) {
+      List thisList = G->adj[i];
+      if (length(thisList) == 0) continue;
+      for (moveFront(thisList); index(thisList) >= 0; moveNext(thisList)) 
+         addArc(trans, get(thisList), i);
+   }
+   return trans;
 }
 
 //copyGraph
 //Returns a copy of a graph
 Graph copyGraph (Graph G) {
-   return G;
+   Graph copy = newGraph(G->order);
+   for (int i = 1; i < G->order + 1; ++i) {
+      List thisList = G->adj[i];
+      if (length(thisList) == 0) continue;
+      for (moveFront(thisList); index(thisList) >= 0; moveNext(thisList))
+         addArc(copy, i, get(thisList));
+   }
+   return copy;
 }
 
 //printGraph

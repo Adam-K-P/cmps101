@@ -102,9 +102,19 @@ int getParent (Graph G, int u) {
 
 //Manipulation procedures
 
+//reverseList
+//Helper function for DFS. Self-explanatory.
+static void reverseList (List S) {
+   List Scopy = copyList(S);
+   for (moveBack(Scopy); index(Scopy) >= 0; movePrev(Scopy)) {
+      deleteFront(S);
+      append(S, get(Scopy));
+   }
+}
+
 //visit
 //Helper function for DFS
-static void visit (Graph G, int x, int *time) {
+static void visit (Graph G, int x, int *time, List S) {
    G->color[x] = 1;
    G->discover[x] = ++(*time);
    List thisList = G->adj[x];
@@ -113,12 +123,21 @@ static void visit (Graph G, int x, int *time) {
          int y = get(thisList);
          if (G->color[y] == 0) {
             G->parent[y] = x;
-            visit(G, y, time);
+            visit(G, y, time, S);
          }
       }
    }
    G->color[x]  = 2;
    G->finish[x] = ++(*time);
+
+   //get(S) should never be less than 0, provoke error rather than ignore
+   for (moveFront(S); ; moveNext(S)) { 
+      if (get(S) == x) {
+         delete(S);
+         append(S, x);
+         break;
+      }
+   }
 }
 
 //DFS
@@ -133,10 +152,12 @@ void DFS (Graph G, List S) {
       G->color[i]  = 0;
       G->parent[i] = NIL;
    }
-   for (moveFront(S); index(S) >= 0; moveNext(S)) {
-      int x = get(S);
-      if (G->color[x] == 0) visit(G, x, &time);
+   List Scopy = copyList(S);
+   for (moveFront(Scopy); index(Scopy) >= 0; moveNext(Scopy)) {
+      int x = get(Scopy);
+      if (G->color[x] == 0) visit(G, x, &time, S);
    }
+   reverseList(S);
 }
 
 //addEdge

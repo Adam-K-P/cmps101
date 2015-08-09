@@ -63,7 +63,25 @@ static void getStrong (Graph G, FILE *outfile, List vertexList) {
          ++scc;
       }
    }
-   fprintf(outfile, "\nG has %d strongly connected components\n", scc);
+   fprintf(outfile, "\nG contains %d strongly connected components:\n", scc);
+   int i = 1;
+   for (moveBack(roots), moveBack(vertexList); index(roots) >= 0; 
+        movePrev(roots)) {
+      List component = newList();
+      for (; index(vertexList) >= 0; movePrev(vertexList)) {
+         prepend(component, get(vertexList));
+         if (get(vertexList) == get(roots)) {
+            movePrev(vertexList);
+            break;
+         }
+      }
+      fprintf(outfile, "Component %d: ", i++);
+      printList(outfile, component);
+      fprintf(outfile, "\n");
+      freeList(&component);
+   }
+   freeList(&roots);
+   freeGraph(&trans);
 }
 
 //makeGraph
@@ -87,7 +105,6 @@ static Graph makeGraph (FILE *infile, List vertexList) {
          error("makeGraph", "Illegal vertex values");
       if (vertex1 == 0) break; //both must be 0
       addArc(G, vertex1, vertex2);
-      //FIXME just .... bad
       if (!inList(vertexList, vertex1)) append(vertexList, vertex1);
       if (!inList(vertexList, vertex2)) append(vertexList, vertex2);
    }
@@ -102,6 +119,8 @@ int main (int argc, char **argv) {
    Graph G = makeGraph(infile, vertexList);
    printGraph(outfile, G);
    getStrong(G, outfile, vertexList);
+   freeList(&vertexList);
+   freeGraph(&G);
    fprintf(outfile, "\n");
    fclose(infile);
    fclose(outfile);

@@ -45,7 +45,7 @@ Graph newGraph (int n) {
 //freeGraph
 //Graph destructor
 void freeGraph (Graph *G) {
-   /*free((*G)->discover);
+   free((*G)->discover);
    free((*G)->finish);
    free((*G)->parent);
    free((*G)->color);
@@ -60,7 +60,7 @@ void freeGraph (Graph *G) {
    (*G)->adj = NULL;
 
    free(*G);
-   *G = NULL;*/
+   *G = NULL;
    (void)G;
 }
 
@@ -110,6 +110,7 @@ static void reverseList (List S) {
       deleteFront(S);
       append(S, get(Scopy));
    }
+   freeList(&Scopy);
 }
 
 //visit
@@ -141,7 +142,7 @@ static void visit (Graph G, int x, int *time, List S) {
 }
 
 //DFS
-//Perforsm depth first search on a Graph G
+//Performs depth first search on a Graph G
 /* white = 0 (undiscovered)
    grey  = 1 (discovered with undiscovered children)
    black = 2 (discovered and children discovered) */
@@ -157,6 +158,7 @@ void DFS (Graph G, List S) {
       int x = get(Scopy);
       if (G->color[x] == 0) visit(G, x, &time, S);
    }
+   freeList(&Scopy);
    reverseList(S);
 }
 
